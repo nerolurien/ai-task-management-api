@@ -203,6 +203,8 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
   const [showActivityModal, setShowActivityModal] = useState(false);
   const [activities, setActivities] = useState<any[]>([]);
   const [loadingActivities, setLoadingActivities] = useState(false);
+  const [activitySearch, setActivitySearch] = useState('');
+  const [activitySort, setActivitySort] = useState<'desc' | 'asc'>('desc');
 
   const fetchActivities = async () => {
     setLoadingActivities(true);
@@ -953,27 +955,58 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
           <DialogHeader>
             <DialogTitle>Riwayat Aktivitas Project</DialogTitle>
           </DialogHeader>
+          <div className="flex items-center gap-2 mt-2">
+            <Input 
+              placeholder="Cari aktivitas atau nama..." 
+              value={activitySearch} 
+              onChange={(e) => setActivitySearch(e.target.value)} 
+              className="flex-1"
+            />
+            <select 
+              value={activitySort} 
+              onChange={(e) => setActivitySort(e.target.value as 'asc' | 'desc')}
+              className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
+            >
+              <option value="desc">Terbaru</option>
+              <option value="asc">Terlama</option>
+            </select>
+          </div>
+
           <div className="flex flex-col gap-3 max-h-[60vh] overflow-y-auto pr-2 mt-2">
             {loadingActivities ? (
               <p className="text-sm text-muted-foreground text-center py-4">Memuat aktivitas...</p>
             ) : activities.length === 0 ? (
               <p className="text-sm text-muted-foreground text-center py-4">Belum ada aktivitas di project ini.</p>
             ) : (
-              activities.map(activity => (
-                <div key={activity.id} className="flex gap-3 text-sm">
-                  <div className="mt-0.5 flex-none bg-primary/10 p-1.5 rounded-full h-fit">
-                    <ClipboardList className="h-3.5 w-3.5 text-primary" />
+              (() => {
+                const filtered = activities.filter(a => 
+                  (a.action || '').toLowerCase().includes(activitySearch.toLowerCase()) ||
+                  (a.user?.name || '').toLowerCase().includes(activitySearch.toLowerCase())
+                ).sort((a, b) => {
+                  const diff = new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+                  return activitySort === 'desc' ? diff : -diff;
+                });
+
+                if (filtered.length === 0) {
+                   return <p className="text-sm text-muted-foreground text-center py-4">Aktivitas tidak ditemukan.</p>;
+                }
+                
+                return filtered.map(activity => (
+                  <div key={activity.id} className="flex gap-3 text-sm">
+                    <div className="mt-0.5 flex-none bg-primary/10 p-1.5 rounded-full h-fit">
+                      <ClipboardList className="h-3.5 w-3.5 text-primary" />
+                    </div>
+                    <div className="flex flex-col gap-0.5">
+                      <p>
+                        <span className="font-semibold">{activity.user.name}</span> {activity.action}
+                      </p>
+                      <span className="text-[10px] text-muted-foreground">
+                        {new Date(activity.createdAt).toLocaleDateString('id-ID', { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'short' })}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex flex-col gap-0.5">
-                    <p>
-                      <span className="font-semibold">{activity.user.name}</span> {activity.action}
-                    </p>
-                    <span className="text-[10px] text-muted-foreground">
-                      {new Date(activity.createdAt).toLocaleDateString('id-ID', { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'short' })}
-                    </span>
-                  </div>
-                </div>
-              ))
+                ));
+              })()
             )}
           </div>
         </DialogContent>
