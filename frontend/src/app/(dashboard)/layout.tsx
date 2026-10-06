@@ -10,6 +10,8 @@ import { Bell, Sparkles, Home } from 'lucide-react';
 import apiClient from '@/lib/axios';
 import { toast } from '@/components/ui/toast';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
+import { Menu } from 'lucide-react';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -70,36 +72,79 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="border-b bg-background px-6 py-3 flex items-center justify-between sticky top-0 z-10">
+      <header className="border-b bg-background px-4 md:px-6 py-3 flex items-center justify-between sticky top-0 z-10">
         <div className="flex items-center gap-3">
-          <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="md:hidden">
+                <Menu className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-[250px] sm:w-[300px]">
+              <SheetTitle className="sr-only">Menu Navigasi</SheetTitle>
+              <div className="flex flex-col gap-6 pt-6">
+                <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                  <div className="h-7 w-7 rounded-lg bg-primary flex items-center justify-center">
+                    <Sparkles className="h-3.5 w-3.5 text-primary-foreground" />
+                  </div>
+                  <span className="font-bold text-lg tracking-tight">Taskly</span>
+                </Link>
+                <nav className="flex flex-col gap-4">
+                  <Link href="/projects" className="text-sm font-medium hover:text-primary">
+                    Dashboard Projects
+                  </Link>
+                  <Link href="/notifications" className="text-sm font-medium hover:text-primary flex items-center justify-between">
+                    Notifikasi
+                    {unreadCount > 0 && (
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+                        {unreadCount}
+                      </span>
+                    )}
+                  </Link>
+                  <Link href="/profile" className="text-sm font-medium hover:text-primary">
+                    Profil Saya
+                  </Link>
+                </nav>
+                <div className="mt-auto border-t pt-4">
+                  <Button variant="destructive" className="w-full" onClick={handleLogout}>
+                    Keluar
+                  </Button>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
+
+          <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity hidden md:flex">
             <div className="h-7 w-7 rounded-lg bg-primary flex items-center justify-center">
               <Sparkles className="h-3.5 w-3.5 text-primary-foreground" />
             </div>
             <span className="font-bold text-lg tracking-tight">Taskly</span>
           </Link>
-          <span className="text-border">|</span>
-          <Link href="/projects" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+          <span className="text-border hidden md:inline">|</span>
+          <Link href="/projects" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden md:inline">
             Dashboard
           </Link>
         </div>
-        <div className="flex items-center gap-4">
+        
+        <div className="flex items-center gap-3 md:gap-4">
           <ThemeToggle />
-          <Link href="/notifications" className="relative text-muted-foreground hover:text-foreground">
-            <Bell className="h-5 w-5" />
-            {unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
-                {unreadCount}
-              </span>
-            )}
-          </Link>
-          <div className="flex gap-2">
-            <Link href="/profile">
-              <Button variant="ghost">Profil</Button>
+          <div className="hidden md:flex items-center gap-4">
+            <Link href="/notifications" className="relative text-muted-foreground hover:text-foreground">
+              <Bell className="h-5 w-5" />
+              {unreadCount > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+                  {unreadCount}
+                </span>
+              )}
             </Link>
-            <Button variant="outline" onClick={handleLogout}>
-              Logout
-            </Button>
+            <div className="flex gap-2">
+              <Link href="/profile">
+                <Button variant="ghost">Profil</Button>
+              </Link>
+              <Button variant="outline" onClick={handleLogout}>
+                Logout
+              </Button>
+            </div>
           </div>
         </div>
       </header>

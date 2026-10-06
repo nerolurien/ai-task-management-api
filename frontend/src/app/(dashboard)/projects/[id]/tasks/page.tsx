@@ -530,11 +530,11 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
             <div className="flex justify-center items-center py-12">Loading tasks...</div>
           ) : (
             <DragDropContext onDragEnd={onDragEnd}>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+          <div className="flex flex-row overflow-x-auto snap-x snap-mandatory pb-4 md:grid md:grid-cols-3 gap-6 items-start hide-scrollbar">
             {columns.map((column) => {
               const columnTasks = tasks.filter(t => t.status === column.id);
               return (
-                <div key={column.id} className={`flex flex-col gap-4 p-4 rounded-xl border ${column.border} bg-background`}>
+                <div key={column.id} className={`flex flex-col gap-4 p-4 rounded-xl border ${column.border} bg-background min-w-[85vw] snap-center shrink-0 md:min-w-0 md:shrink md:snap-align-none`}>
                   {/* Column Header */}
                   <div className={`flex items-center justify-between font-semibold rounded-lg px-3 py-2 ${column.headerBg}`}>
                     <h2 className={`text-base flex items-center gap-2 ${column.headerText}`}>
