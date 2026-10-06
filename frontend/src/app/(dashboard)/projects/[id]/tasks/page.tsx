@@ -205,6 +205,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
   const [loadingActivities, setLoadingActivities] = useState(false);
   const [activitySearch, setActivitySearch] = useState('');
   const [activitySort, setActivitySort] = useState<'desc' | 'asc'>('desc');
+  const [activityDate, setActivityDate] = useState('');
 
   const fetchActivities = async () => {
     setLoadingActivities(true);
@@ -955,21 +956,29 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
           <DialogHeader>
             <DialogTitle>Riwayat Aktivitas Project</DialogTitle>
           </DialogHeader>
-          <div className="flex items-center gap-2 mt-2">
-            <Input 
-              placeholder="Cari aktivitas atau nama..." 
-              value={activitySearch} 
-              onChange={(e) => setActivitySearch(e.target.value)} 
-              className="flex-1"
-            />
-            <select 
-              value={activitySort} 
-              onChange={(e) => setActivitySort(e.target.value as 'asc' | 'desc')}
-              className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
-            >
-              <option value="desc">Terbaru</option>
-              <option value="asc">Terlama</option>
-            </select>
+          <div className="flex flex-col gap-2 mt-2">
+            <div className="flex items-center gap-2">
+              <Input 
+                placeholder="Cari aktivitas atau nama..." 
+                value={activitySearch} 
+                onChange={(e) => setActivitySearch(e.target.value)} 
+                className="flex-1"
+              />
+              <Input 
+                type="date"
+                value={activityDate} 
+                onChange={(e) => setActivityDate(e.target.value)} 
+                className="w-auto"
+              />
+              <select 
+                value={activitySort} 
+                onChange={(e) => setActivitySort(e.target.value as 'asc' | 'desc')}
+                className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
+              >
+                <option value="desc">Terbaru</option>
+                <option value="asc">Terlama</option>
+              </select>
+            </div>
           </div>
 
           <div className="flex flex-col gap-3 max-h-[60vh] overflow-y-auto pr-2 mt-2">
@@ -979,10 +988,15 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
               <p className="text-sm text-muted-foreground text-center py-4">Belum ada aktivitas di project ini.</p>
             ) : (
               (() => {
-                const filtered = activities.filter(a => 
-                  (a.action || '').toLowerCase().includes(activitySearch.toLowerCase()) ||
-                  (a.user?.name || '').toLowerCase().includes(activitySearch.toLowerCase())
-                ).sort((a, b) => {
+                const filtered = activities.filter(a => {
+                  const matchSearch = (a.action || '').toLowerCase().includes(activitySearch.toLowerCase()) ||
+                                      (a.user?.name || '').toLowerCase().includes(activitySearch.toLowerCase());
+                  
+                  // a.createdAt is an ISO string like "2026-10-06T12:00:00.000Z"
+                  const matchDate = activityDate ? a.createdAt.startsWith(activityDate) : true;
+                  
+                  return matchSearch && matchDate;
+                }).sort((a, b) => {
                   const diff = new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
                   return activitySort === 'desc' ? diff : -diff;
                 });
