@@ -1,6 +1,6 @@
 # 🚀 AI-Powered Task Management System
 
-Sebuah sistem manajemen tugas (*Task Management*) full-stack skala enterprise yang modern, responsif, dan cerdas. Aplikasi ini dibangun untuk menyelesaikan *Technical Test* dengan nilai tambah fitur kecerdasan buatan (AI) yang terintegrasi.
+Sebuah sistem manajemen tugas (*Task Management*) full-stack yang modern, responsif, dan cerdas. Aplikasi ini dirancang sebagai *platform* kolaborasi tim tingkat lanjut, dilengkapi dengan nilai tambah berupa fitur asisten kecerdasan buatan (AI) yang terintegrasi penuh.
 
 ## 🛠️ Tech Stack
 
