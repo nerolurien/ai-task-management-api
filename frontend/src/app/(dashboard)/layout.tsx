@@ -13,6 +13,8 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet';
 import { Menu } from 'lucide-react';
 
+import { LayoutDashboard, User, LogOut } from 'lucide-react';
+
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const [unreadCount, setUnreadCount] = useState(0);
@@ -71,7 +73,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col font-sans">
       <header className="border-b bg-background px-4 md:px-6 py-3 flex items-center justify-between sticky top-0 z-10">
         <div className="flex items-center gap-3">
           <Sheet>
@@ -79,34 +81,40 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle menu</span>
             </SheetTrigger>
-            <SheetContent side="left" className="w-[250px] sm:w-[300px]">
+            <SheetContent side="left" className="w-[280px] font-sans border-r bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
               <SheetTitle className="sr-only">Menu Navigasi</SheetTitle>
-              <div className="flex flex-col gap-6 pt-6">
-                <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                  <div className="h-7 w-7 rounded-lg bg-primary flex items-center justify-center">
-                    <Sparkles className="h-3.5 w-3.5 text-primary-foreground" />
+              <div className="flex flex-col h-full pt-2">
+                <Link href="/" className="flex items-center gap-2 px-2 hover:opacity-80 transition-opacity mb-8">
+                  <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center shadow-md shadow-primary/20">
+                    <Sparkles className="h-4 w-4 text-primary-foreground" />
                   </div>
-                  <span className="font-bold text-lg tracking-tight">Taskly</span>
+                  <span className="font-bold text-xl tracking-tight">Taskly</span>
                 </Link>
-                <nav className="flex flex-col gap-4">
-                  <Link href="/projects" className="text-sm font-medium hover:text-primary">
+                <nav className="flex flex-col gap-2">
+                  <Link href="/projects" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-all hover:bg-accent hover:text-accent-foreground">
+                    <LayoutDashboard className="h-4 w-4" />
                     Dashboard Projects
                   </Link>
-                  <Link href="/notifications" className="text-sm font-medium hover:text-primary flex items-center justify-between">
-                    Notifikasi
+                  <Link href="/notifications" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-all hover:bg-accent hover:text-accent-foreground">
+                    <div className="flex items-center gap-3 flex-1">
+                      <Bell className="h-4 w-4" />
+                      Notifikasi
+                    </div>
                     {unreadCount > 0 && (
                       <span className="flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
                         {unreadCount}
                       </span>
                     )}
                   </Link>
-                  <Link href="/profile" className="text-sm font-medium hover:text-primary">
+                  <Link href="/profile" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-all hover:bg-accent hover:text-accent-foreground">
+                    <User className="h-4 w-4" />
                     Profil Saya
                   </Link>
                 </nav>
-                <div className="mt-auto border-t pt-4">
-                  <Button variant="destructive" className="w-full" onClick={handleLogout}>
-                    Keluar
+                <div className="mt-auto pb-4">
+                  <Button variant="outline" className="w-full justify-start gap-3 border-destructive/20 text-destructive hover:bg-destructive/10" onClick={handleLogout}>
+                    <LogOut className="h-4 w-4" />
+                    Keluar Akun
                   </Button>
                 </div>
               </div>
