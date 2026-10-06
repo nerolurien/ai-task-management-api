@@ -1,9 +1,14 @@
 import Link from 'next/link';
+import { cookies } from 'next/headers';
 import { ArrowRight, Sparkles, LayoutDashboard, ListTodo, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
-export default function Home() {
+export default async function Home() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('token');
+  const isLoggedIn = !!token;
+
   return (
     <div className="min-h-screen bg-background relative overflow-hidden flex flex-col">
       {/* Background Gradient Mesh */}
@@ -19,12 +24,20 @@ export default function Home() {
         </div>
         <div className="flex items-center gap-4">
           <ThemeToggle />
-          <Link href="/login">
-            <Button variant="ghost" className="text-sm font-medium">Log in</Button>
-          </Link>
-          <Link href="/register">
-            <Button className="text-sm font-medium rounded-full px-6">Sign up</Button>
-          </Link>
+          {isLoggedIn ? (
+            <Link href="/projects">
+              <Button className="text-sm font-medium rounded-full px-6">Buka Dashboard</Button>
+            </Link>
+          ) : (
+            <>
+              <Link href="/login">
+                <Button variant="ghost" className="text-sm font-medium">Log in</Button>
+              </Link>
+              <Link href="/register">
+                <Button className="text-sm font-medium rounded-full px-6">Sign up</Button>
+              </Link>
+            </>
+          )}
         </div>
       </header>
 
@@ -45,11 +58,19 @@ export default function Home() {
         </p>
 
         <div className="flex flex-col sm:flex-row items-center gap-4 animate-in fade-in slide-in-from-bottom-10 duration-700 delay-500">
-          <Link href="/register">
-            <Button size="lg" className="rounded-full px-8 h-12 text-base font-semibold shadow-lg shadow-primary/20">
-              Get Started for Free <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </Link>
+          {isLoggedIn ? (
+            <Link href="/projects">
+              <Button size="lg" className="rounded-full px-8 h-12 text-base font-semibold shadow-lg shadow-primary/20">
+                Buka Dashboard <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
+          ) : (
+            <Link href="/register">
+              <Button size="lg" className="rounded-full px-8 h-12 text-base font-semibold shadow-lg shadow-primary/20">
+                Get Started for Free <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
+          )}
           <a href="https://github.com/nerolurien/ai-task-management-api" target="_blank" rel="noreferrer">
             <Button size="lg" variant="outline" className="rounded-full px-8 h-12 text-base font-semibold gap-2">
               View on GitHub

@@ -14,8 +14,8 @@ export function proxy(request: NextRequest) {
   const protectedRoutes = ['/projects', '/profile', '/notifications'];
   const isProtectedRoute = protectedRoutes.some(route => pathname.startsWith(route));
 
-  // 1. Jika sudah login, cegah akses ke halaman login, register, atau halaman utama (landing page)
-  if (token && (isAuthRoute || pathname === '/')) {
+  // 1. Jika sudah login, cegah akses ke halaman login, register
+  if (token && isAuthRoute) {
     return NextResponse.redirect(new URL('/projects', request.url));
   }
 
