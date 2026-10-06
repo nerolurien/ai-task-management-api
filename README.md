@@ -29,8 +29,9 @@ Sebuah sistem manajemen tugas (*Task Management*) full-stack yang modern, respon
 ### 1. 🤖 AI Task Assistant (Gemini)
 Pengguna tidak perlu mengisi form manual yang panjang. Cukup ketik perintah ke AI Command Bar (contoh: *"Buatkan task Fix Bug Login, prioritas tinggi, deadline besok"*), dan AI akan otomatis membuatkan *task* lengkap dengan penempatan tanggal dan prioritas yang akurat.
 
-### 2. 📋 Papan Kanban Interaktif (Drag & Drop)
-Ucapkan selamat tinggal pada tabel *todo-list* yang kaku. Geser (Drag & Drop) *task* Anda langsung di antara kolom **To Do**, **In Progress**, dan **Done**. Perubahan otomatis tersimpan ke *database*.
+### 2. 📋 Papan Kanban Interaktif (Drag & Drop) & Mobile Ready
+- Geser (Drag & Drop) *task* Anda langsung di antara kolom **To Do**, **In Progress**, dan **Done**. 
+- **100% Mobile Friendly:** Tersedia mode gulir mendatar (Horizontal Scroll) untuk Kanban di perangkat *mobile* beserta tombol perpindahan (Move Left/Right) untuk aksesibilitas tinggi pada layar sentuh.
 
 ### 3. 📊 Dashboard Analitik & Statistik
 Pantau progres proyek secara langsung dengan tab **Statistik Project**:
@@ -47,8 +48,8 @@ Pantau progres proyek secara langsung dengan tab **Statistik Project**:
 ### 5. 🔍 Activity Log dengan Filter & Sortir Cerdas
 Seluruh riwayat perubahan dalam project (mulai dari siapa yang membuat *task* hingga komentar yang ditambahkan) dicatat rapi. Modal aktivitas dilengkapi dengan **Filter Pencarian Teks**, **Pencarian Berdasarkan Tanggal (Date Picker)**, serta penyortiran **Terbaru/Terlama**.
 
-### 6. 🌙 Dark Mode & UI/UX Modern
-Desain *Landing Page* yang megah dan responsif, dukungan perpindahan tema (Terang/Gelap) instan dengan elemen *glassmorphism* dan animasi interaktif.
+### 6. 🌙 Dark Mode & Responsivitas Penuh
+Desain *Landing Page* dan *Dashboard* yang sepenuhnya mendukung perpindahan tema (Terang/Gelap) instan dengan elemen *glassmorphism*. Dilengkapi dengan *Mobile Navigation Drawer* (Menu Hamburger) untuk kemudahan navigasi di layar kecil.
 
 ### 7. 🔔 Sistem Notifikasi Real-time & Cerdas
 - **Undangan Tim & Smart Reminder:** Lonceng indikator dengan *auto-polling* yang memunculkan peringatan jika ada *task* dengan batas waktu (*deadline*) di hari yang sama atau sudah terlewat.
