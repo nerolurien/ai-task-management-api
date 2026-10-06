@@ -86,15 +86,11 @@ Satu *task* besar dapat dipecah menjadi *checklist* *sub-task* kecil. Tandai sub
    ```bash
    cd frontend
    ```
-2. Buat file `.env.local` dan isi URL API backend:
-   ```env
-   NEXT_PUBLIC_API_URL=http://localhost:3333
-   ```
-3. Install dependensi:
+2. Install dependensi:
    ```bash
    npm install
    ```
-4. Jalankan server frontend:
+3. Jalankan server frontend:
    ```bash
    npm run dev
    ```
