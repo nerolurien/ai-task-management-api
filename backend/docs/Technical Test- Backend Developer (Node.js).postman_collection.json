@@ -418,6 +418,304 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "New Features (v2)",
+      "item": [
+        {
+          "name": "Subtasks",
+          "item": [
+            {
+              "name": "Add Subtask",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Setup UI\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3333/tasks/1/subtasks",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3333",
+                  "path": [
+                    "tasks",
+                    "1",
+                    "subtasks"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update Subtask",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"isCompleted\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3333/subtasks/1",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3333",
+                  "path": [
+                    "subtasks",
+                    "1"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Delete Subtask",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:3333/subtasks/1",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3333",
+                  "path": [
+                    "subtasks",
+                    "1"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Comments",
+          "item": [
+            {
+              "name": "Get Comments",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:3333/tasks/1/comments",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3333",
+                  "path": [
+                    "tasks",
+                    "1",
+                    "comments"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Add Comment",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"content\": \"Tolong dicek ya!\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3333/tasks/1/comments",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3333",
+                  "path": [
+                    "tasks",
+                    "1",
+                    "comments"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Notifications & Invites",
+          "item": [
+            {
+              "name": "Get Notifications",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:3333/notifications",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3333",
+                  "path": [
+                    "notifications"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Respond Invite",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"accepted\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3333/notifications/1/respond",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3333",
+                  "path": [
+                    "notifications",
+                    "1",
+                    "respond"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Invite Member",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"newmember@mail.com\",\n  \"projectId\": 1\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3333/invite",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3333",
+                  "path": [
+                    "invite"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Activities",
+          "item": [
+            {
+              "name": "Get Project Activities",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "http://localhost:3333/projects/1/activities",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "3333",
+                  "path": [
+                    "projects",
+                    "1",
+                    "activities"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
     }
   ]
 }
