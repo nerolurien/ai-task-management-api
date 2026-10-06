@@ -6,7 +6,7 @@ import Cookies from 'js-cookie';
 import { Button } from '@/components/ui/button';
 
 import { useEffect, useState } from 'react';
-import { Bell } from 'lucide-react';
+import { Bell, Sparkles, Home } from 'lucide-react';
 import apiClient from '@/lib/axios';
 import { toast } from '@/components/ui/toast';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -71,9 +71,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   return (
     <div className="min-h-screen flex flex-col">
       <header className="border-b bg-background px-6 py-3 flex items-center justify-between sticky top-0 z-10">
-        <Link href="/projects" className="text-xl font-bold text-primary">
-          TaskApp
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <div className="h-7 w-7 rounded-lg bg-primary flex items-center justify-center">
+              <Sparkles className="h-3.5 w-3.5 text-primary-foreground" />
+            </div>
+            <span className="font-bold text-lg tracking-tight">Taskly</span>
+          </Link>
+          <span className="text-border">|</span>
+          <Link href="/projects" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            Dashboard
+          </Link>
+        </div>
         <div className="flex items-center gap-4">
           <ThemeToggle />
           <Link href="/notifications" className="relative text-muted-foreground hover:text-foreground">
@@ -135,3 +144,4 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     </div>
   );
 }
+
