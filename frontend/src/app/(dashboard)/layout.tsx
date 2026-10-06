@@ -75,10 +75,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <header className="border-b bg-background px-4 md:px-6 py-3 flex items-center justify-between sticky top-0 z-10">
         <div className="flex items-center gap-3">
           <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
-                <Menu className="h-5 w-5" />
-              </Button>
+            <SheetTrigger className="md:hidden inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground h-9 w-9">
+              <Menu className="h-5 w-5" />
+              <span className="sr-only">Toggle menu</span>
             </SheetTrigger>
             <SheetContent side="left" className="w-[250px] sm:w-[300px]">
               <SheetTitle className="sr-only">Menu Navigasi</SheetTitle>
