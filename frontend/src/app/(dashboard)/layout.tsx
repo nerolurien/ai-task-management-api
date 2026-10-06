@@ -76,7 +76,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <div className="h-7 w-7 rounded-lg bg-primary flex items-center justify-center">
               <Sparkles className="h-3.5 w-3.5 text-primary-foreground" />
             </div>
-            <span className="font-bold text-lg tracking-tight">AntigravityTask</span>
+            <span className="font-bold text-lg tracking-tight">Taskly</span>
           </Link>
           <span className="text-border">|</span>
           <Link href="/projects" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
@@ -144,3 +144,4 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     </div>
   );
 }
+

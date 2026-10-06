@@ -144,3 +144,4 @@ export function ProjectAnalytics({ tasks }: ProjectAnalyticsProps) {
     </div>
   );
 }
+

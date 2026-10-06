@@ -86,3 +86,4 @@ export function AiCommandBar({ onSuccess, projectId }: AiCommandBarProps) {
     </div>
   );
 }
+
