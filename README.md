@@ -1,4 +1,4 @@
-﻿# 🚀 AI-Powered Task Management System
+# 🚀 AI-Powered Task Management System
 
 Sebuah sistem manajemen tugas (*Task Management*) full-stack skala enterprise yang modern, responsif, dan cerdas. Aplikasi ini dibangun untuk menyelesaikan *Technical Test* dengan nilai tambah fitur kecerdasan buatan (AI) yang terintegrasi.
 
@@ -62,7 +62,10 @@ Satu *task* besar dapat dipecah menjadi *checklist* *sub-task* kecil. Tandai sub
 - API Key Google Gemini (untuk fitur AI)
 
 ### Setup Backend (AdonisJS)
-1. Buka terminal di folder *root*.
+1. Buka terminal baru dan masuk ke folder `backend`.
+   ```bash
+   cd backend
+   ```
 2. Duplikat `.env.example` menjadi `.env` dan isi konfigurasi database serta tambahkan `GEMINI_API_KEY`.
 3. Install dependensi:
    ```bash
