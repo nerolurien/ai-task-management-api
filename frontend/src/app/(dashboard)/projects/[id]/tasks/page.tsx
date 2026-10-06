@@ -483,14 +483,14 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
           </Button>
         </Link>
 
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex flex-col gap-1">
             <h1 className="text-3xl font-bold tracking-tight">Task Board</h1>
             <p className="text-muted-foreground">
               Buat task secara manual atau gunakan AI.
             </p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <Button variant="outline" onClick={openActivityModal}>
               <ClipboardList className="mr-2 h-4 w-4" />
               Riwayat
@@ -606,7 +606,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
                                         </p>
                                       ) : <div />}
                                       {/* Move buttons - Optional now since we have DND, but keep for accessibility */}
-                                      <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity" onClick={e => e.stopPropagation()}>
+                                      <div className="flex gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity" onClick={e => e.stopPropagation()}>
                                         {task.status !== 'todo' && (
                                           <Button variant="outline" size="icon" className="h-6 w-6" onClick={() => handleMoveTask(task, 'prev')}>
                                             <ChevronLeft className="h-3.5 w-3.5" />
@@ -862,7 +862,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
             </DialogTitle>
           </DialogHeader>
           <div className="flex flex-col gap-4 py-2">
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               <Input
                 type="email"
                 placeholder="Undang via email (nama@email.com)"
