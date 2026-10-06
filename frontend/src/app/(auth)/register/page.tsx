@@ -9,7 +9,6 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from '@/components/ui/toast';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { Sparkles } from 'lucide-react';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -46,20 +45,10 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col">
-      {/* Navbar */}
-      <header className="border-b bg-background px-6 h-14 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-          <div className="h-7 w-7 rounded-lg bg-primary flex items-center justify-center">
-            <Sparkles className="h-3.5 w-3.5 text-primary-foreground" />
-          </div>
-          <span className="font-bold text-lg tracking-tight">Taskly</span>
-        </Link>
+    <div className="flex min-h-screen items-center justify-center p-4 relative">
+      <div className="absolute top-4 right-4">
         <ThemeToggle />
-      </header>
-
-      {/* Form */}
-      <div className="flex flex-1 items-center justify-center p-4">
+      </div>
       <Card className="w-full max-w-md">
         <form onSubmit={handleRegister}>
           <CardHeader>
@@ -113,8 +102,6 @@ export default function RegisterPage() {
           </CardFooter>
         </form>
       </Card>
-      </div>
     </div>
   );
 }
-
