@@ -1,5 +1,6 @@
 import router from '@adonisjs/core/services/router'
 import { middleware } from '#start/kernel'
+import { authThrottle } from '#start/limiter'
 
 const AuthController = () => import('#controllers/auth_controller')
 const ProjectsController = () => import('#controllers/projects_controller')
@@ -7,8 +8,8 @@ const TasksController = () => import('#controllers/tasks_controller')
 const AiController = () => import('#controllers/ai_controller')
 
 // Autentikasi
-router.post('/register', [AuthController, 'register'])
-router.post('/login', [AuthController, 'login'])
+router.post('/register', [AuthController, 'register']).use(authThrottle)
+router.post('/login', [AuthController, 'login']).use(authThrottle)
 
 router
   .group(() => {
