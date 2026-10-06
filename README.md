@@ -1,70 +1,113 @@
-Task Management REST API with AI Integration
+﻿# 🚀 AI-Powered Task Management System
 
-REST API untuk sistem Task Management yang dibangun menggunakan framework AdonisJS v6 (Node.js/TypeScript) dan terintegrasi dengan Google Gemini API untuk eksekusi perintah berbasis teks (AI Command).
+Sebuah sistem manajemen tugas (*Task Management*) full-stack skala enterprise yang modern, responsif, dan cerdas. Aplikasi ini dibangun untuk menyelesaikan *Technical Test* dengan nilai tambah fitur kecerdasan buatan (AI) yang terintegrasi.
 
-1. Spesifikasi Teknis
+## 🛠️ Tech Stack
 
-* Framework: AdonisJS v6
-* Bahasa: TypeScript
-* Database: PostgreSQL / MySQL (menggunakan Lucid ORM)
-* Autentikasi: Access Token (JWT)
-* AI Integration: Google Gemini API via SDK @google/genai
+**Frontend:**
+- **Next.js 14** (App Router)
+- **React** & **TypeScript**
+- **Tailwind CSS** & **Shadcn UI** (Styling & Komponen)
+- **Lucide React** (Icons)
+- **Recharts** (Visualisasi Data/Analytics)
+- **@hello-pangea/dnd** (Drag and Drop Kanban)
+- **Next-themes** (Dark Mode)
 
-2. Struktur Database
-Sistem menggunakan 4 tabel utama sesuai kebutuhan spesifikasi:
-* users: id, name, email, password, role ('admin', 'user').
-* projects: id, name, description, created_by (fk ke users).
-* tasks: id, project_id (fk ke projects), title, description, status ('todo', 'in_progress', 'done'), priority ('low', 'medium', 'high'), assignee_id (fk ke users).
-* audit_logs: id, user_id (fk ke users), action, request_payload, response_payload, status ('success', 'failed'), failed_reason, created_at.
+**Backend:**
+- **AdonisJS 6** (Node.js Framework)
+- **TypeScript**
+- **MySQL** (Database)
+- **Lucid ORM** (Database ORM)
+- **Google Gemini API** (AI Integration)
+- **Bcrypt / Scrypt** (Keamanan Password)
 
-3. Instalasi dan Setup
+---
 
-Clone Repository dan Install Dependency
-```bash
-git clone [https://github.com/nerolurien/Technical-Test-Yapindo-Jaya-Abadi.git](https://github.com/nerolurien/Technical-Test-Yapindo-Jaya-Abadi.git)
-cd Technical-Test-Yapindo-Jaya-Abadi
-npm install
-```
+## ✨ Fitur Unggulan
 
-Konfigurasi Environment (.env)
-Salin template konfigurasi dari .env.example:
-```bash
-cp .env.example .env
-```
-Migrasi Database dan Seeding
-Jalankan migrasi untuk membuat tabel dan mengisi data awal (dummy users, dummy project, dummy task):
-```bash
-node ace migration:fresh --seed
-```
-Kredensial akun uji coba dari seeder:   
-Admin: admin@mail.com | password123   
-User: budi@mail.com | password123   
-User: siti@mail.com | password123  
+### 1. 🤖 AI Task Assistant (Gemini)
+Pengguna tidak perlu mengisi form manual yang panjang. Cukup ketik perintah ke AI Command Bar (contoh: *"Buatkan task Fix Bug Login, prioritas tinggi, deadline besok"*), dan AI akan otomatis membuatkan *task* lengkap dengan penempatan tanggal dan prioritas yang akurat.
 
-4. Menjalankan Aplikasi
-Jalankan server dalam mode development:
-```bash
-npm run dev
-```
+### 2. 🖱️ Papan Kanban Interaktif (Drag & Drop)
+Ucapkan selamat tinggal pada tabel *todo-list* yang kaku. Geser (Drag & Drop) *task* Anda langsung di antara kolom **To Do**, **In Progress**, dan **Done**. Perubahan otomatis tersimpan ke *database*.
 
-5. Perancangan AI Prompt Engineering
-Fitur POST /ai/command menggunakan Google Gemini API dengan ketentuan teknis berikut:
-a. System Instruction dan Guardrail Keamanan
-Model diinstruksikan secara spesifik hanya boleh mengembalikan aksi untuk tabel tasks (CREATE, UPDATE, DELETE).
-Diberikan pembatasan tegas bahwa model dilarang memanipulasi atau menghapus data user. Jika input mengandung perintah terkait perubahan data user, AI diarahkan untuk menolak perintah tersebut melalui flag rejection.
+### 3. 📊 Dashboard Analitik & Statistik
+Pantau progres proyek secara langsung dengan tab **Statistik Project**:
+- **Pie Chart:** Persentase kelulusan *task* (Berapa persen proyek yang sudah *Done*).
+- **Bar Chart (Beban Kerja):** Pantau anggota mana yang memegang beban kerja terbesar.
+- **Bar Chart (Produktivitas):** Tren jumlah *task* yang selesai dalam 7 hari terakhir.
 
-b. Structured Output (JSON Schema)
-Menggunakan fitur responseSchema dari SDK Gemini API agar output yang dihasilkan selalu berbentuk JSON valid dengan struktur yang konsisten.
-Langkah ini mencegah halusinasi teks, teks markdown (seperti pembuka ```json), atau teks acak yang dapat menyebabkan JSON.parse() pada backend mengalami crash.
+### 4. 🌙 Mode Gelap (Dark Mode)
+Bekerja malam hari tanpa membuat mata lelah. Toggle *Dark Mode* tersedia di halaman navigasi utama hingga halaman Login/Register, tersimpan otomatis mengikuti preferensi pengguna.
 
-c. Database Transaction (Atomicity)
-Seluruh operasi yang dihasilkan oleh AI dieksekusi di dalam satu blok db.transaction().
-Jika salah satu perintah gagal (misalnya task ID tidak ditemukan pada aksi update atau delete), maka seluruh operasi yang dieksekusi sebelumnya langsung dibatalkan melalui mekanisme rollback, memastikan integritas data tetap konsisten (all-or-nothing).
+### 5. ☑️ Sub-task (Checklist) Lengkap
+Satu *task* besar dapat dipecah menjadi *checklist* *sub-task* kecil. Tandai sub-task yang sudah selesai (*strike-through*) agar lebih rinci memantau progres.
 
-d. Audit Logging
-Setiap request yang masuk ke endpoint AI command dicatat ke tabel audit_logs.
-Operasi insert ke audit_logs dilakukan di luar transaksi CRUD task, sehingga request yang berstatus gagal (failed) beserta failed_reason tetap tersimpan ke database untuk kebutuhan pelacakan
+### 6. 🔔 Sistem Notifikasi Real-time & Cerdas (Auto-Polling)
+- **Undangan Tim:** Notifikasi masuk ke lonceng saat ada anggota yang mengundang.
+- **Deadline Hari Ini (Smart Reminder):** Sistem otomatis memunculkan peringatan di lonceng jika ada tugas yang batas waktunya jatuh di hari yang sama atau sudah terlewat (*overdue*). Indikator lonceng otomatis memperbarui angka merahnya (polling).
 
-6. Dokumentasi API
-Koleksi Postman untuk pengujian API telah disediakan pada repositori ini di folder:
-docs/postman_collection.json
+### 7. 🔐 Manajemen Pengguna & Keamanan Lapis Tinggi
+- **Role-Based Access:** Akun *Admin* dan *User*.
+- **Admin Dashboard:** Halaman khusus *Admin* untuk mengawasi seluruh pengguna, menghitung proyek mereka, dan menghapus akun nakal.
+- **Invite Member Secure Flow:** Mengundang member baru melalui email akan menghasilkan "Temporary Password" khusus. Begitu member tersebut login, sistem akan "mengunci" layar dan **memaksa** member untuk mengganti password mereka ke yang baru minimal 6 karakter.
+
+---
+
+## 💻 Cara Menjalankan (Local Setup)
+
+### Persyaratan
+- Node.js (v20+)
+- MySQL (v8+)
+- API Key Google Gemini (untuk fitur AI)
+
+### Setup Backend (AdonisJS)
+1. Buka terminal di folder *root*.
+2. Duplikat `.env.example` menjadi `.env` dan isi konfigurasi database serta tambahkan `GEMINI_API_KEY`.
+3. Install dependensi:
+   ```bash
+   npm install
+   ```
+4. Jalankan migrasi database:
+   ```bash
+   node ace migration:run
+   ```
+5. Jalankan server backend:
+   ```bash
+   npm run dev
+   ```
+   *Backend akan berjalan di http://localhost:3333*
+
+### Setup Frontend (Next.js)
+1. Buka terminal baru dan masuk ke folder `frontend`.
+   ```bash
+   cd frontend
+   ```
+2. Buat file `.env.local` dan isi URL API backend:
+   ```env
+   NEXT_PUBLIC_API_URL=http://localhost:3333
+   ```
+3. Install dependensi:
+   ```bash
+   npm install
+   ```
+4. Jalankan server frontend:
+   ```bash
+   npm run dev
+   ```
+   *Frontend akan berjalan di http://localhost:3000*
+
+---
+
+## 🏗️ Dokumentasi API & Backend Details
+Sistem menggunakan autentikasi JWT Access Token dan AdonisJS Lucid ORM untuk tabel berikut:
+- **users**: Data pengguna, role (`admin`, `user`), password.
+- **projects** & **project_members**: Tim kerja dan hak akses antar project.
+- **tasks**, **subtasks**, & **comments**: Manajemen tugas, checklist, dan kolom diskusi.
+- **notifications**: Pengumuman & undangan.
+- **activities**: Pencatatan riwayat interaksi pengguna dalam sebuah project.
+- **audit_logs**: *Log* keamanan interaksi AI Command API.
+
+*Catatan: Koleksi Postman awal dapat ditemukan di folder `docs/postman_collection.json`.*
+
+🎉 *Developed with passion & agentic AI collaboration.*

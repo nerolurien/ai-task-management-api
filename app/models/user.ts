@@ -29,6 +29,9 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column()
   declare role: 'admin' | 'user'
 
+  @column({ columnName: 'is_password_temporary' })
+  declare isPasswordTemporary: boolean
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 

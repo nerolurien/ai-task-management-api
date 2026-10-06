@@ -1,8 +1,10 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
-import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import { BaseModel, column, belongsTo, hasMany } from '@adonisjs/lucid/orm'
+import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import Project from '#models/project'
 import User from '#models/user'
+import Comment from '#models/comment'
+import Subtask from '#models/subtask'
 
 export default class Task extends BaseModel {
   @column({ isPrimary: true })
@@ -23,6 +25,9 @@ export default class Task extends BaseModel {
   @column()
   declare priority: 'low' | 'medium' | 'high'
 
+  @column.date()
+  declare dueDate: DateTime | null
+
   @column({ columnName: 'assignee_id' })
   declare assigneeId: number | null
 
@@ -37,4 +42,10 @@ export default class Task extends BaseModel {
 
   @belongsTo(() => User, { foreignKey: 'assigneeId' })
   declare assignee: BelongsTo<typeof User>
+
+  @hasMany(() => Comment, { foreignKey: 'taskId' })
+  declare comments: HasMany<typeof Comment>
+
+  @hasMany(() => Subtask, { foreignKey: 'taskId' })
+  declare subtasks: HasMany<typeof Subtask>
 }

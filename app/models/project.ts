@@ -4,6 +4,8 @@ import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import User from '#models/user'
 import Task from '#models/task'
 
+import Notification from '#models/notification'
+
 export default class Project extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
@@ -28,4 +30,7 @@ export default class Project extends BaseModel {
 
   @hasMany(() => Task, { foreignKey: 'projectId' })
   declare tasks: HasMany<typeof Task>
+
+  @hasMany(() => Notification, { foreignKey: 'projectId' })
+  declare notifications: HasMany<typeof Notification>
 }

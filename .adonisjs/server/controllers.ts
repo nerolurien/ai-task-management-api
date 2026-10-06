@@ -7,6 +7,10 @@ export const controllers = {
   AccessTokens: () => import('#controllers/access_tokens_controller'),
   Ai: () => import('#controllers/ai_controller'),
   Auth: () => import('#controllers/auth_controller'),
+  Comments: () => import('#controllers/comments_controller'),
+  Notifications: () => import('#controllers/notifications_controller'),
   Profile: () => import('#controllers/profile_controller'),
   Projects: () => import('#controllers/projects_controller'),
+  Tasks: () => import('#controllers/tasks_controller'),
+  Users: () => import('#controllers/users_controller'),
 }
