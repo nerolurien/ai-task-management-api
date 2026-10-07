@@ -1,6 +1,6 @@
 import router from '@adonisjs/core/services/router'
 import { middleware } from '#start/kernel'
-import { authThrottle } from '#start/limiter'
+import { authThrottle, aiThrottle } from '#start/limiter'
 
 const AuthController = () => import('#controllers/auth_controller')
 const ProjectsController = () => import('#controllers/projects_controller')
@@ -22,7 +22,7 @@ router
     router.get('/projects/:id/members', [ProjectsController, 'getMembers'])
     router.delete('/projects/:id/members/:userId', [ProjectsController, 'kickMember'])
     router.post('/projects', [ProjectsController, 'store'])
-    router.post('/ai/command', [AiController, 'handleCommand'])
+    router.post('/ai/command', [AiController, 'handleCommand']).use(aiThrottle)
 
     // Manual Task CRUD & Comments
     router.post('/tasks', [TasksController, 'store'])

@@ -18,3 +18,7 @@ export const throttle = limiter.define('global', () => {
 export const authThrottle = limiter.define('auth', () => {
   return limiter.allowRequests(5).every('5 minutes') // max 5 attempts per 5 mins
 })
+export const aiThrottle = limiter.define('ai', (ctx) => {
+  const userId = ctx.auth.user?.id || ctx.request.ip()
+  return limiter.allowRequests(15).every('10 minutes').usingKey("ai_$userId")
+})
