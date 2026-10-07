@@ -16,6 +16,9 @@ export default class Project extends BaseModel {
   @column()
   declare description: string | null
 
+  @column()
+  declare editorsCanInvite: boolean
+
   @column({ columnName: 'created_by' })
   declare createdBy: number
 
