@@ -11,7 +11,7 @@ export default class NotificationsController {
     const user = auth.user!
 
     // Cleanup expired invites (older than 1 hour)
-    const oneHourAgo = DateTime.now().minus({ hours: 1 }).toSQL()
+    const oneHourAgo = DateTime.now().minus({ hours: 1 }).toJSDate()
     await Notification.query()
       .where('type', 'PROJECT_INVITE')
       .where('status', 'pending')

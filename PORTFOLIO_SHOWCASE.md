@@ -1,65 +1,72 @@
-# 🚀 Taskly - Enterprise-Grade AI Task Management System
+# Portofolio Proyek: Sistem Manajemen Tugas Terintegrasi Kecerdasan Buatan (AI)
 
-Sebuah sistem manajemen tugas (*Task Management*) berbasis web *full-stack* yang modern, responsif, dan cerdas. Aplikasi ini dirancang tidak hanya sebagai alat manajemen proyek biasa, melainkan sebagai *platform* kolaborasi tim tingkat lanjut dengan arsitektur keamanan yang solid (RBAC, Rate Limiting), serta asisten kecerdasan buatan (AI) yang terintegrasi penuh.
+## Ringkasan Proyek
+Taskly adalah aplikasi web full-stack yang dirancang untuk merampingkan kolaborasi tim dan manajemen tugas. Sistem ini mengintegrasikan kecerdasan buatan untuk menyederhanakan entri data dan menerapkan arsitektur Role-Based Access Control (RBAC) yang kokoh guna memastikan keamanan data dan otorisasi berlapis antar pengguna.
 
-## 🛠️ Tech Stack & Architecture
-
-- **Frontend:** Next.js 16 (App Router), React 19, Tailwind CSS v4, Shadcn UI, Lucide React, Recharts.
-- **Backend:** AdonisJS 6 (Node.js), TypeScript, MySQL, Lucid ORM.
-- **AI Engine:** Google Gemini API.
-- **Security:** AdonisJS Limiter & Shield, Bcrypt Hashing, HTTP Strict Security Headers.
-
----
-
-## ✨ Sorotan Fitur Utama (Key Features)
-
-### 1. 🤖 AI Task Assistant (Gemini)
-Berbeda dengan aplikasi *To-Do List* tradisional yang mewajibkan pengguna mengisi *form* panjang (Judul, Deskripsi, Tenggat Waktu, Prioritas), Taskly menggunakan **Natural Language Processing**.
-- **Cara Kerja:** Pengguna cukup mengetik *"Buatkan task Fix Bug Login dengan prioritas tinggi dan deadline besok"*. AI akan langsung mengekstrak *intent* tersebut dan memasukkannya ke dalam tabel *database* dengan parameter yang tepat secara otomatis.
-
-*(Masukkan Screenshot AI Command Bar di sini)*
-`[Tempat Screenshot: AI Command Bar / Contoh pembuatan Task AI]`
-
-### 2. 🛡️ Role-Based Access Control (RBAC) & Google Drive-style Permissions
-Aplikasi ini mendukung kolaborasi tim dengan sistem otorisasi multi-level:
-- **Owner:** Kendali penuh atas proyek (menghapus, *kick member*, dll).
-- **Manager:** Asisten *Owner* yang bisa mengundang/mengeluarkan anggota.
-- **Editor:** Bisa membuat dan memindahkan *task*, namun fitur "*Invite*" bergantung pada konfigurasi *Owner* (Owner bisa menyalakan/mematikan izin "Editor Can Invite" kapan saja).
-- **Viewer:** Akses *Read-only*. Seluruh tombol seperti `Tambah Task`, kotak instruksi AI, hingga kemampuan *Drag and Drop* Kanban Board otomatis dinonaktifkan di layar *Viewer*.
-
-*(Masukkan Screenshot Modal Invite dengan Pilihan Role di sini)*
-`[Tempat Screenshot: Invite Member Modal dengan Dropdown Viewer/Editor/Manager]`
-
-### 3. 📋 Papan Kanban Drag-and-Drop (Mobile Responsive)
-- Dilengkapi dengan *interface* Kanban klasik (To Do, In Progress, Done).
-- Menggunakan pendekatan khusus agar **100% responsif di perangkat mobile**. *User* di layar kecil bisa menggulir kolom secara horizontal (mendatar) dan memindahkan kartu (*card*) dengan tombol panah khusus tanpa perlu kesulitan melakukan *drag and drop* di layar sentuh.
-
-*(Masukkan Screenshot Papan Kanban Desktop & Mobile di sini)*
-`[Tempat Screenshot: Kanban Board Desktop & Kanban Mobile Horizontal]`
-
-### 4. 📊 Dashboard Analitik Cerdas
-*Project Management* membutuhkan visibilitas data. Aplikasi menyajikan tiga visualisasi penting (didukung oleh Recharts):
-- **Progress Keseluruhan:** *Pie Chart* dari status *task*.
-- **Distribusi Beban Kerja:** *Bar Chart* yang menampilkan anggota mana yang sedang memegang beban kerja (*workload*) paling berat.
-- **Tren Produktivitas:** Grafik penyelesaian *task* selama 7 hari terakhir.
-
-*(Masukkan Screenshot Tab Statistik / Grafik di sini)*
-`[Tempat Screenshot: Tab Statistik Project (Pie Chart & Bar Chart)]`
-
-### 5. 🔐 Enterprise-Grade Security
-Keamanan bukan sekadar fitur sampingan dalam sistem ini:
-- **Rate Limiting AI & Auth:** Mencegah eksploitasi API Key dan serangan *Brute Force*. Batas ketat (maksimal 5 request AI per 10 menit) diberlakukan di level peladen (*server*).
-- **Time-Based Invite Expiration (Auto-Cleanup):** Tautan/undangan proyek memiliki masa aktif maksimal 1 jam. Backend dilengkapi dengan algoritma pembersihan otomatis (*auto-cleanup*) yang berpatroli menghapus undangan kedaluwarsa secara diam-diam untuk mencegah celah eksploitasi akses terselubung.
-- **Force Password Reset:** Anggota yang diundang via *email* akan diberikan kata sandi (*password*) sementara yang *auto-generated*. Saat login pertama kali, *middleware* akan mengunci akses pengguna hingga mereka mengganti *password* sementara tersebut.
-- **Strict-Transport-Security & XSS Protection:** *Header* keamanan telah dikonfigurasi melalui Next.js.
-
-*(Masukkan Screenshot Halaman Force Reset Password atau Activity Log di sini)*
-`[Tempat Screenshot: Layar Wajib Ganti Password / Riwayat Aktivitas]`
+## Teknologi & Arsitektur
+- Frontend: Next.js 16 (App Router), React 19, Tailwind CSS v4, Shadcn UI, Recharts.
+- Backend: AdonisJS 6 (Node.js), TypeScript, MySQL, Lucid ORM.
+- Integrasi: Google Gemini API untuk pemrosesan bahasa alami (Natural Language Processing).
+- Keamanan: AdonisJS Limiter, Bcrypt, HTTP Strict Security Headers.
 
 ---
 
-## 💡 Mengapa Proyek Ini Menonjol?
-Proyek ini mendemonstrasikan perpaduan yang sangat seimbang antara:
-1. **Frontend Modern:** Pemahaman mendalam mengenai React *hooks*, sinkronisasi *state* kompleks (*drag-and-drop*), UI/UX yang memanjakan mata (*Dark Mode*, *Glassmorphism*), dan penanganan aplikasi ramah perangkat seluler (*mobile-first approach*).
-2. **Backend Engineering:** Desain arsitektur *database* rasional, pengembangan API RESTful terstruktur menggunakan pola MVC (AdonisJS), penanganan Otorisasi (RBAC), serta optimasi keamanan *middleware*.
-3. **AI Integration:** Pengimplementasian kecerdasan buatan (*Prompt Engineering* & API Gateway) yang tidak sekadar tempelan, melainkan benar-benar menyelesaikan masalah nyata (mempercepat *data entry*).
+## Fitur Utama & Implementasi
+
+### 1. Asisten Tugas Berbasis AI
+Berbeda dengan metode pengisian formulir panjang tradisional, pengguna dapat memanfaatkan perintah bahasa alami untuk membuat tugas. Dengan mengetikkan instruksi seperti "Buatkan task perbaikan bug login dengan prioritas tinggi untuk besok", backend akan berkomunikasi dengan API Gemini untuk mengekstrak niat pengguna dan memetakannya secara otomatis ke dalam skema database.
+
+[Sisipkan Tangkapan Layar: AI Command Bar dan Hasil Pembuatan Tugas]
+
+### 2. Role-Based Access Control (RBAC)
+Arsitektur sistem mendukung otorisasi multi-level untuk mengakomodasi struktur tim yang kompleks:
+- Owner: Akses administratif penuh, termasuk penghapusan proyek dan manajemen anggota.
+- Manager: Memiliki hak untuk mengelola anggota dan tugas proyek.
+- Editor: Dapat memodifikasi dan memindahkan tugas. Hak untuk mengundang anggota lain bersifat dinamis dan dapat diatur oleh Owner.
+- Viewer: Akses hanya-baca (read-only). Komponen UI seperti fungsi drag-and-drop, kolom input, dan tombol aksi dinonaktifkan secara terprogram di sisi klien dan divalidasi dengan ketat di sisi peladen.
+
+[Sisipkan Tangkapan Layar: Modal Manajemen Anggota dengan Pilihan Role]
+
+### 3. Papan Kanban Responsif
+Dibangun dengan manajemen state yang kompleks untuk mendukung fungsionalitas drag-and-drop di lingkungan desktop. Guna memastikan kompatibilitas seluler, papan ini memanfaatkan pendekatan gulir horizontal yang dilengkapi tombol interaksi khusus. Hal ini menjamin aksesibilitas penuh pada perangkat sentuh tanpa mengorbankan pengalaman pengguna.
+
+[Sisipkan Tangkapan Layar: Papan Kanban versi Desktop & Mobile]
+
+### 4. Dasbor Analitik
+Visibilitas dan metrik proyek divisualisasikan melalui Recharts, menyediakan data waktu nyata mengenai:
+- Tingkat penyelesaian tugas dan status proyek saat ini.
+- Distribusi beban kerja antar anggota tim untuk mencegah hambatan kerja (bottleneck).
+- Tren produktivitas dalam 7 hari terakhir.
+
+[Sisipkan Tangkapan Layar: Dasbor Analitik / Tab Statistik]
+
+### 5. Riwayat Aktivitas (Activity Log)
+Seluruh riwayat perubahan di dalam proyek (seperti penambahan tugas, perubahan status, hingga komentar) dicatat secara detail. Fitur ini dilengkapi dengan sistem pencarian teks dan filter berdasarkan tanggal untuk memudahkan proses audit pergerakan tugas.
+
+[Sisipkan Tangkapan Layar: Modal Riwayat Aktivitas Proyek]
+
+### 6. Sistem Notifikasi & Pengingat Pintar (Smart Reminder)
+Aplikasi memiliki sistem pemberitahuan terintegrasi yang berfungsi untuk mengelola kolaborasi secara efisien:
+- Menampilkan undangan kolaborasi masuk beserta aksi terima/tolak.
+- Memberikan pengingat otomatis (auto-reminder) untuk tugas-tugas kritis yang batas waktunya berakhir pada hari yang sama atau sudah terlewat, sehingga tidak ada tugas yang terbengkalai.
+
+[Sisipkan Tangkapan Layar: Lonceng Notifikasi dan Peringatan Tenggat Waktu]
+
+### 7. Mode Gelap & Antarmuka Modern
+Desain antarmuka mengadopsi estetika Glassmorphism yang mendukung pergantian tema terang dan gelap secara instan. Dilengkapi dengan navigasi samping adaptif untuk memastikan pengalaman navigasi yang lancar di berbagai ukuran layar.
+
+[Sisipkan Tangkapan Layar: Perbandingan Tampilan Tema Terang dan Gelap]
+
+### 8. Langkah Keamanan Lanjutan
+Keamanan diintegrasikan pada inti aplikasi untuk mencegah kerentanan umum dan akses tidak sah:
+- Pembatasan Laju API (Rate Limiting): Diterapkan pada tingkat peladen untuk mencegah serangan brute-force dan penyalahgunaan endpoint AI (dibatasi 5 permintaan per 10 menit per pengguna).
+- Kedaluwarsa Undangan Berbasis Waktu: Undangan sistem akan hangus secara otomatis setelah 1 jam. Rutinitas pembersihan otomatis (auto-cleanup) menghapus undangan lama dari database untuk meminimalisasi risiko akses tak terotorisasi.
+- Paksaan Pembaruan Kata Sandi: Anggota baru yang diundang menerima kata sandi sementara yang dihasilkan oleh sistem. Saat login pertama kali, middleware akan mencegat sesi dan memaksa pengguna memperbarui kata sandi sebelum memberikan akses dasbor.
+- HTTP Security Headers: Dikonfigurasi untuk memitigasi serangan Clickjacking dan XSS.
+
+[Sisipkan Tangkapan Layar: Layar Wajib Ganti Password atau Pengaturan Keamanan]
+
+---
+
+## Sorotan Teknis
+Proyek ini mendemonstrasikan kecakapan dalam membangun aplikasi web yang dapat diskalakan. Pengembangan ini menyoroti kemampuan menyinkronkan state frontend yang kompleks dengan API backend RESTful yang aman. Integrasi AI menunjukkan penerapan rekayasa prompt (prompt engineering) praktis untuk menyelesaikan kendala interaksi pengguna (mengurangi entri data manual), sementara implementasi RBAC dan keamanan mencerminkan pemahaman mendalam terhadap standar arsitektur perangkat lunak tingkat perusahaan (enterprise-level).
