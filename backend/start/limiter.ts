@@ -20,5 +20,5 @@ export const authThrottle = limiter.define('auth', () => {
 })
 export const aiThrottle = limiter.define('ai', (ctx) => {
   const userId = ctx.auth.user?.id || ctx.request.ip()
-  return limiter.allowRequests(15).every('10 minutes').usingKey("ai_$userId")
+  return limiter.allowRequests(5).every('10 minutes').usingKey("ai_$userId")
 })
