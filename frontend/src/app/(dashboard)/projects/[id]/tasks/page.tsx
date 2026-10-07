@@ -515,21 +515,14 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
               Riwayat
             </Button>
             {canInvite && (<Button variant="outline" onClick={openInviteModal}><Mail className="mr-2 h-4 w-4" />Invite Member</Button>)}
-            <Button onClick={openCreateModal}>
+            {!isViewer && (<Button onClick={openCreateModal}>
               <Plus className="mr-2 h-4 w-4" />
-              Tambah Task
-            </Button>
+              Tambah Task</Button>)}
           </div>
         </div>
 
         {/* AI Command Bar */}
-        <div className="flex items-center gap-3 w-full bg-background border rounded-2xl px-1 py-1 shadow-sm">
-          <AiCommandBar projectId={projectId} onSuccess={fetchTasks} />
-        </div>
-        <p className="text-xs text-muted-foreground flex items-center gap-1.5">
-          <Sparkles className="h-3 w-3 text-primary" />
-          Contoh: &quot;Buatkan task Fix Bug Login dengan priority high&quot;
-        </p>
+        {!isViewer && (<><div className="flex items-center gap-3 w-full bg-background border rounded-2xl px-1 py-1 shadow-sm"><AiCommandBar projectId={projectId} onSuccess={fetchTasks} /></div><p className="text-xs text-muted-foreground flex items-center gap-1.5"><Sparkles className="h-3 w-3 text-primary" />Contoh: &quot;Buatkan task Fix Bug Login dengan priority high&quot;</p></>)}
       </div>
 
       {/* Main Content Tabs */}
@@ -570,7 +563,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
                         className={`flex flex-col gap-3 min-h-[250px] transition-colors ${snapshot.isDraggingOver ? 'bg-muted/50 rounded-lg' : ''}`}
                       >
                         {columnTasks.map((task, index) => (
-                          <Draggable key={task.id} draggableId={task.id.toString()} index={index}>
+                          <Draggable key={task.id} draggableId={task.id.toString()} index={index} isDragDisabled={isViewer}>
                             {(provided, snapshot) => (
                               <div
                                 ref={provided.innerRef}
@@ -605,7 +598,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
                                             HARI INI
                                           </Badge>
                                         )}
-                                      </div>
+                                      </div>)}
                                       {getDueDate(task) && (
                                         <span className={`text-xs flex items-center gap-1 ${
                                           new Date(getDueDate(task)!) < new Date() && task.status !== 'done' ? 'text-red-500 font-bold' : 'text-muted-foreground'
@@ -622,7 +615,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
                                         </p>
                                       ) : <div />}
                                       {/* Move buttons - Optional now since we have DND, but keep for accessibility */}
-                                      <div className="flex gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity" onClick={e => e.stopPropagation()}>
+                                      {!isViewer && (<div className="flex gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity" onClick={e => e.stopPropagation()}>
                                         {task.status !== 'todo' && (
                                           <Button variant="outline" size="icon" className="h-6 w-6" onClick={() => handleMoveTask(task, 'prev')}>
                                             <ChevronLeft className="h-3.5 w-3.5" />
@@ -633,7 +626,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
                                             <ChevronRight className="h-3.5 w-3.5" />
                                           </Button>
                                         )}
-                                      </div>
+                                      </div>)}
                                     </div>
                                   </CardContent>
                                 </Card>
@@ -707,14 +700,14 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
                   </p>
                 </div>
               )}
-              <div className="flex justify-between pt-2 border-t mt-2">
+              {!isViewer && (<div className="flex justify-between pt-2 border-t mt-2">
                 <Button variant="outline" size="sm" onClick={() => openEditModal(detailTask)}>
                   <Pencil className="mr-2 h-3.5 w-3.5" /> Edit
                 </Button>
                 <Button variant="destructive" size="sm" onClick={() => handleDeleteTask(detailTask.id)}>
                   <Trash2 className="mr-2 h-3.5 w-3.5" /> Hapus
                 </Button>
-              </div>
+              </div>)}
 
               {/* Subtasks Section */}
               <div className="mt-4 pt-4 border-t flex flex-col gap-3">
