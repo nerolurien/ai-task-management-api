@@ -1,5 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import Notification from '#models/notification'
+import { DateTime } from 'luxon'
 
 export default class NotificationsController {
   /**
@@ -8,6 +9,14 @@ export default class NotificationsController {
    */
   async index({ response, auth }: HttpContext) {
     const user = auth.user!
+
+    // Cleanup expired invites (older than 1 hour)
+    const oneHourAgo = DateTime.now().minus({ hours: 1 }).toSQL()
+    await Notification.query()
+      .where('type', 'PROJECT_INVITE')
+      .where('status', 'pending')
+      .where('created_at', '<', oneHourAgo)
+      .delete()
 
     // 1. Get real invite notifications
     const inviteNotifications = await Notification.query()
@@ -82,6 +91,15 @@ export default class NotificationsController {
 
     if (!notification) {
       return response.status(404).json({ message: 'Notifikasi tidak ditemukan' })
+    }
+
+    // Check expiration if it's a project invite
+    if (notification.type === 'PROJECT_INVITE') {
+      const oneHourAgo = DateTime.now().minus({ hours: 1 })
+      if (notification.createdAt < oneHourAgo) {
+        await notification.delete()
+        return response.status(400).json({ message: 'Undangan telah kedaluwarsa (lebih dari 1 jam) dan dihapus.' })
+      }
     }
 
     notification.status = status
