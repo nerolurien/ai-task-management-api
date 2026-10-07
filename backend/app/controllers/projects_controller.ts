@@ -227,7 +227,9 @@ export default class ProjectsController {
         creator: project.creator,
         members,
         pending,
-        isOwner: auth.user!.id === project.createdBy
+        isOwner: auth.user!.id === project.createdBy,
+        editorsCanInvite: project.editorsCanInvite,
+        currentUserRole: auth.user!.id === project.createdBy ? 'manager' : (members.find(m => m.id === auth.user!.id)?.role || 'viewer')
       }
     })
   }
