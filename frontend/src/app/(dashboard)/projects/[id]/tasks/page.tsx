@@ -598,7 +598,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
                                             HARI INI
                                           </Badge>
                                         )}
-                                      </div>)}
+                                      </div>
                                       {getDueDate(task) && (
                                         <span className={`text-xs flex items-center gap-1 ${
                                           new Date(getDueDate(task)!) < new Date() && task.status !== 'done' ? 'text-red-500 font-bold' : 'text-muted-foreground'
