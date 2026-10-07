@@ -14,7 +14,7 @@ import { Switch } from '@/components/ui/switch';
 import { AiCommandBar } from '@/components/AiCommandBar';
 import { ProjectAnalytics } from '@/components/ProjectAnalytics';
 import { toast } from '@/components/ui/toast';
-import { ArrowLeft, Sparkles, Plus, Pencil, Trash2, ChevronRight, ChevronLeft, ClipboardList, Timer, CircleCheckBig, User, Mail, Calendar, GripVertical } from 'lucide-react';
+import { ArrowLeft, Sparkles, Plus, Pencil, Trash2, ChevronRight, ChevronLeft, ClipboardList, Timer, CircleCheckBig, User, Mail, Calendar, GripVertical, Info, Eye } from 'lucide-react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 
 interface Task {
@@ -514,9 +514,16 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
 
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex flex-col gap-1">
-            <h1 className="text-3xl font-bold tracking-tight">Task Board</h1>
+            <div className="flex items-center gap-3">
+              <h1 className="text-3xl font-bold tracking-tight">Task Board</h1>
+              {isViewer && (
+                <Badge variant="secondary" className="bg-blue-50 text-blue-700 hover:bg-blue-50 border-blue-200">
+                  <Eye className="mr-1 h-3 w-3" /> Viewer Mode
+                </Badge>
+              )}
+            </div>
             <p className="text-muted-foreground">
-              Buat task secara manual atau gunakan AI.
+              {isViewer ? 'Anda hanya memiliki akses lihat (Read-only) pada project ini.' : 'Buat task secara manual atau gunakan AI.'}
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
