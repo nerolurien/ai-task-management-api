@@ -9,15 +9,15 @@ export interface ApiDefinition {
   }
   projects: {
     index: typeof routes['projects.index']
+    store: typeof routes['projects.store']
+    show: typeof routes['projects.show']
+    update: typeof routes['projects.update']
+    destroy: typeof routes['projects.destroy']
     getTasks: typeof routes['projects.get_tasks']
     getActivities: typeof routes['projects.get_activities']
     getMembers: typeof routes['projects.get_members']
     updateMemberRole: typeof routes['projects.update_member_role']
     kickMember: typeof routes['projects.kick_member']
-    store: typeof routes['projects.store']
-    show: typeof routes['projects.show']
-    update: typeof routes['projects.update']
-    destroy: typeof routes['projects.destroy']
   }
   ai: {
     handleCommand: typeof routes['ai.handle_command']

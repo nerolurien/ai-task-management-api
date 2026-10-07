@@ -17,12 +17,15 @@ router
     
     // Fitur Role User & Admin
     router.get('/projects', [ProjectsController, 'index'])
+    router.post('/projects', [ProjectsController, 'store'])
+    router.get('/projects/:id', [ProjectsController, 'show'])
+    router.put('/projects/:id', [ProjectsController, 'update'])
+    router.delete('/projects/:id', [ProjectsController, 'destroy'])
     router.get('/projects/:id/tasks', [ProjectsController, 'getTasks'])
     router.get('/projects/:id/activities', [ProjectsController, 'getActivities'])
     router.get('/projects/:id/members', [ProjectsController, 'getMembers'])
     router.put('/projects/:id/members/:userId/role', [ProjectsController, 'updateMemberRole'])
-      router.delete('/projects/:id/members/:userId', [ProjectsController, 'kickMember'])
-    router.post('/projects', [ProjectsController, 'store'])
+    router.delete('/projects/:id/members/:userId', [ProjectsController, 'kickMember'])
     router.post('/ai/command', [AiController, 'handleCommand']).use(aiThrottle)
 
     // Manual Task CRUD & Comments
@@ -54,9 +57,6 @@ router
       .group(() => {
         router.get('/users', [UsersController, 'index'])
         router.delete('/users/:id', [UsersController, 'destroy'])
-        router.get('/projects/:id', [ProjectsController, 'show'])
-        router.put('/projects/:id', [ProjectsController, 'update'])
-        router.delete('/projects/:id', [ProjectsController, 'destroy'])
       })
       .use(middleware.admin())
   })
