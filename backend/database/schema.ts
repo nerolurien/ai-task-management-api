@@ -88,7 +88,7 @@ export class CommentSchema extends BaseModel {
 }
 
 export class NotificationSchema extends BaseModel {
-  static $columns = ['createdAt', 'id', 'projectId', 'senderId', 'status', 'type', 'updatedAt', 'userId'] as const
+  static $columns = ['createdAt', 'id', 'projectId', 'role', 'senderId', 'status', 'type', 'updatedAt', 'userId'] as const
   $columns = NotificationSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime | null
@@ -96,6 +96,8 @@ export class NotificationSchema extends BaseModel {
   declare id: number
   @column()
   declare projectId: number | null
+  @column()
+  declare role: string | null
   @column()
   declare senderId: number | null
   @column()

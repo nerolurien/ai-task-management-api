@@ -21,6 +21,9 @@ export default class Notification extends BaseModel {
   declare type: string
 
   @column()
+  declare role: 'viewer' | 'editor' | 'manager' | null
+
+  @column()
   declare status: 'pending' | 'accepted' | 'rejected'
 
   @column.dateTime({ autoCreate: true })

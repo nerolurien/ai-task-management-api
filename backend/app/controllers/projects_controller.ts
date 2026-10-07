@@ -212,7 +212,7 @@ export default class ProjectsController {
 
     const rawMembers = invites
       .filter(inv => inv.status === 'accepted')
-      .map(inv => inv.user)
+      .map(inv => ({ ...inv.user.serialize(), role: inv.role }))
       .filter(u => u.id !== project.creator.id)
 
     // Hapus duplikat jika ada

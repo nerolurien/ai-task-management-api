@@ -175,6 +175,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
   // Invite modal state
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [inviteEmail, setInviteEmail] = useState('');
+  const [inviteRole, setInviteRole] = useState<'viewer' | 'editor' | 'manager'>('editor');
   const [inviting, setInviting] = useState(false);
   const [membersData, setMembersData] = useState<{creator: any, members: any[], pending: any[], isOwner?: boolean}>({ creator: null, members: [], pending: [] });
   const [loadingMembers, setLoadingMembers] = useState(false);
@@ -343,7 +344,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
     }
     setInviting(true);
     try {
-      const res = await apiClient.post('/invite', { email: inviteEmail, project_id: projectId });
+      const res = await apiClient.post('/invite', { email: inviteEmail, project_id: projectId, role: inviteRole });
       const { tempPassword, isNewUser } = res.data.data;
       
       toast.add({ 
@@ -371,7 +372,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
     if (!unregisteredEmail) return;
     setInviting(true);
     try {
-      const res = await apiClient.post('/invite', { email: unregisteredEmail, project_id: projectId, forceCreate: true });
+      const res = await apiClient.post('/invite', { email: unregisteredEmail, project_id: projectId, forceCreate: true, role: inviteRole });
       const { tempPassword } = res.data.data;
       
       setGeneratedPassword({ email: unregisteredEmail, password: tempPassword });
@@ -862,17 +863,30 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
             </DialogTitle>
           </DialogHeader>
           <div className="flex flex-col gap-4 py-2">
-            <div className="flex flex-wrap gap-2">
-              <Input
-                type="email"
-                placeholder="Undang via email (nama@email.com)"
-                value={inviteEmail}
-                onChange={(e) => setInviteEmail(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleInvite()}
-              />
-              <Button onClick={handleInvite} disabled={inviting || !inviteEmail.trim()}>
-                {inviting ? 'Mengundang...' : 'Kirim'}
-              </Button>
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-col sm:flex-row gap-2">
+                <Input
+                  type="email"
+                  placeholder="Undang via email (nama@email.com)"
+                  value={inviteEmail}
+                  onChange={(e) => setInviteEmail(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleInvite()}
+                  className="flex-1"
+                />
+                <Select value={inviteRole} onValueChange={(v) => setInviteRole(v as any)}>
+                  <SelectTrigger className="w-full sm:w-[130px]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="viewer">Viewer</SelectItem>
+                    <SelectItem value="editor">Editor</SelectItem>
+                    <SelectItem value="manager">Manager</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Button onClick={handleInvite} disabled={inviting || !inviteEmail.trim()}>
+                  {inviting ? 'Mengundang...' : 'Kirim'}
+                </Button>
+              </div>
             </div>
 
             <div className="border-t pt-4 flex flex-col gap-3 max-h-[300px] overflow-y-auto pr-2">

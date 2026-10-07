@@ -90,7 +90,7 @@ export default class AuthController {
    */
   async invite({ request, response, auth }: HttpContext) {
     const sender = auth.user!
-    const { email, project_id, forceCreate } = request.only(['email', 'project_id', 'forceCreate'])
+    const { email, project_id, forceCreate, role } = request.only(['email', 'project_id', 'forceCreate', 'role'])
 
     if (!email || !project_id) {
       return response.status(400).json({
@@ -147,6 +147,7 @@ export default class AuthController {
       projectId: project_id,
       senderId: sender.id,
       type: 'PROJECT_INVITE',
+      role: role || 'editor',
       status: 'pending',
     })
 
