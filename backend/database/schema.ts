@@ -124,7 +124,7 @@ export class ProjectMemberSchema extends BaseModel {
 }
 
 export class ProjectSchema extends BaseModel {
-  static $columns = ['createdAt', 'createdBy', 'description', 'id', 'name', 'updatedAt'] as const
+  static $columns = ['createdAt', 'createdBy', 'description', 'editorsCanInvite', 'id', 'name', 'updatedAt'] as const
   $columns = ProjectSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime | null
@@ -132,6 +132,8 @@ export class ProjectSchema extends BaseModel {
   declare createdBy: number | null
   @column()
   declare description: string | null
+  @column()
+  declare editorsCanInvite: boolean | null
   @column({ isPrimary: true })
   declare id: number
   @column()

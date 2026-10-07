@@ -96,10 +96,11 @@ export default class ProjectsController {
       })
     }
 
-    const { name, description } = request.only(['name', 'description'])
+    const { name, description, editors_can_invite } = request.only(['name', 'description', 'editors_can_invite'])
 
     if (name) project.name = name
     if (description !== undefined) project.description = description
+    if (editors_can_invite !== undefined) project.editorsCanInvite = editors_can_invite
 
     await project.save()
 

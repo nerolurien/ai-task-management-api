@@ -177,7 +177,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
   const [inviteEmail, setInviteEmail] = useState('');
   const [inviteRole, setInviteRole] = useState<'viewer' | 'editor' | 'manager'>('editor');
   const [inviting, setInviting] = useState(false);
-  const [membersData, setMembersData] = useState<{creator: any, members: any[], pending: any[], isOwner?: boolean}>({ creator: null, members: [], pending: [] });
+  const [membersData, setMembersData] = useState<{creator: any, members: any[], pending: any[], isOwner?: boolean, editorsCanInvite?: boolean, currentUserRole?: string}>({ creator: null, members: [], pending: [] });
   const [loadingMembers, setLoadingMembers] = useState(false);
   const [kickConfirmData, setKickConfirmData] = useState<{userId: number, email: string} | null>(null);
   const [unregisteredEmail, setUnregisteredEmail] = useState<string | null>(null);
@@ -336,6 +336,22 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
       toast.add({ variant: 'destructive', title: 'Gagal memindahkan task' });
     }
   };
+
+  
+  const handleToggleEditorsInvite = async (checked: boolean) => {
+    try {
+      await apiClient.put(/projects/ + projectId, { editors_can_invite: checked });
+      setMembersData(prev => ({ ...prev, editorsCanInvite: checked }));
+      toast.add({ title: 'Pengaturan diperbarui', description: checked ? 'Editor sekarang bisa mengundang anggota' : 'Hanya Owner dan Manager yang bisa mengundang anggota' });
+    } catch (err) {
+      toast.add({ variant: 'destructive', title: 'Gagal memperbarui pengaturan' });
+    }
+  };
+
+  const currentUserRole = membersData.currentUserRole;
+  const isViewer = currentUserRole === 'viewer';
+  const isEditor = currentUserRole === 'editor';
+  const canInvite = membersData.isOwner || currentUserRole === 'manager' || (isEditor && membersData.editorsCanInvite);
 
   const handleInvite = async () => {
     if (!inviteEmail.trim() || !inviteEmail.includes('@')) {
@@ -496,10 +512,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
               <ClipboardList className="mr-2 h-4 w-4" />
               Riwayat
             </Button>
-            <Button variant="outline" onClick={openInviteModal}>
-              <Mail className="mr-2 h-4 w-4" />
-              Invite Member
-            </Button>
+            {canInvite && (<Button variant="outline" onClick={openInviteModal}><Mail className="mr-2 h-4 w-4" />Invite Member</Button>)}
             <Button onClick={openCreateModal}>
               <Plus className="mr-2 h-4 w-4" />
               Tambah Task
@@ -863,6 +876,18 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
             </DialogTitle>
           </DialogHeader>
           <div className="flex flex-col gap-4 py-2">
+            {membersData.isOwner && (
+              <div className="flex items-center justify-between border-b pb-3">
+                <div className="flex flex-col gap-0.5">
+                  <label className="text-sm font-medium">Izin Editor</label>
+                  <span className="text-xs text-muted-foreground">Izinkan Editor mengundang orang lain</span>
+                </div>
+                <Switch 
+                  checked={membersData.editorsCanInvite} 
+                  onCheckedChange={handleToggleEditorsInvite} 
+                />
+              </div>
+            )}
             <div className="flex flex-col gap-3">
               <div className="flex flex-col sm:flex-row gap-2">
                 <Input
@@ -880,7 +905,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
                   <SelectContent>
                     <SelectItem value="viewer">Viewer</SelectItem>
                     <SelectItem value="editor">Editor</SelectItem>
-                    <SelectItem value="manager">Manager</SelectItem>
+                    {(!isEditor) && <SelectItem value="manager">Manager</SelectItem>}
                   </SelectContent>
                 </Select>
                 <Button onClick={handleInvite} disabled={inviting || !inviteEmail.trim()}>

@@ -122,8 +122,41 @@ export default class AuthController {
     // Cek apakah user adalah owner project
     const Project = (await import('#models/project')).default
     const project = await Project.find(project_id)
-    if (project && project.createdBy === user.id) {
+    if (!project) return response.status(404).json({ message: 'Project tidak ditemukan' })
+    if (project.createdBy === user.id) {
       return response.status(400).json({ message: 'User adalah pemilik project ini (sudah menjadi anggota)' })
+    }
+
+    // Cek izin pengirim (sender)
+    const isOwner = project.createdBy === sender.id
+    let senderRole = null
+
+    if (!isOwner) {
+      const Notification = (await import('#models/notification')).default
+      const senderInvite = await Notification.query()
+        .where('user_id', sender.id)
+        .where('project_id', project_id)
+        .where('type', 'PROJECT_INVITE')
+        .where('status', 'accepted')
+        .first()
+
+      if (!senderInvite) {
+        return response.status(403).json({ message: 'Anda bukan bagian dari project ini' })
+      }
+      senderRole = senderInvite.role
+
+      if (senderRole === 'viewer') {
+        return response.status(403).json({ message: 'Viewer tidak diizinkan mengundang anggota baru' })
+      }
+
+      if (senderRole === 'editor') {
+        if (!project.editorsCanInvite) {
+          return response.status(403).json({ message: 'Owner menonaktifkan fitur invite untuk Editor' })
+        }
+        if (role === 'manager') {
+          return response.status(403).json({ message: 'Editor tidak bisa mengangkat seorang Manager' })
+        }
+      }
     }
 
     // Cek apakah sudah diundang sebelumnya
