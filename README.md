@@ -41,6 +41,7 @@ Pantau progres proyek secara langsung dengan tab **Statistik Project**:
 
 ### 4. 🔐 Keamanan Skala Enterprise (Enterprise Security) & RBAC
 - **Role-Based Access Control (RBAC):** Sistem otorisasi level mahir yang membagi anggota proyek menjadi **Owner, Manager, Editor, dan Viewer**. Viewer hanya memiliki akses baca (Read-only), sementara kontrol pengaturan undangan anggota (ala Google Drive) ada sepenuhnya di tangan Owner.
+- **Time-Based Invite Expiration (Auto-Cleanup):** Tautan/undangan proyek memiliki masa aktif maksimal 1 jam. Backend dilengkapi dengan fitur *auto-cleanup* yang berpatroli membersihkan undangan kedaluwarsa secara otomatis untuk mencegah penyalahgunaan akses terselubung.
 - **Rate Limiting & Anti-Brute Force:** Proteksi jalur Login, Register, dan Endpoint AI (maksimal 5 kali penggunaan AI per 10 menit).
 - **HTTP Security Headers:** Menerapkan `Strict-Transport-Security`, `X-Frame-Options`, `X-XSS-Protection`, dan `Nosniff` di sisi Next.js untuk mencegah *Clickjacking* dan injeksi XSS.
 - **URL Protection Middleware:** Mencegah akses ke halaman sensitif tanpa Token (dan mencegah pengguna login mengakses halaman registrasi lagi).

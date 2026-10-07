@@ -49,6 +49,7 @@ Aplikasi ini mendukung kolaborasi tim dengan sistem otorisasi multi-level:
 ### 5. 🔐 Enterprise-Grade Security
 Keamanan bukan sekadar fitur sampingan dalam sistem ini:
 - **Rate Limiting AI & Auth:** Mencegah eksploitasi API Key dan serangan *Brute Force*. Batas ketat (maksimal 5 request AI per 10 menit) diberlakukan di level peladen (*server*).
+- **Time-Based Invite Expiration (Auto-Cleanup):** Tautan/undangan proyek memiliki masa aktif maksimal 1 jam. Backend dilengkapi dengan algoritma pembersihan otomatis (*auto-cleanup*) yang berpatroli menghapus undangan kedaluwarsa secara diam-diam untuk mencegah celah eksploitasi akses terselubung.
 - **Force Password Reset:** Anggota yang diundang via *email* akan diberikan kata sandi (*password*) sementara yang *auto-generated*. Saat login pertama kali, *middleware* akan mengunci akses pengguna hingga mereka mengganti *password* sementara tersebut.
 - **Strict-Transport-Security & XSS Protection:** *Header* keamanan telah dikonfigurasi melalui Next.js.
 
