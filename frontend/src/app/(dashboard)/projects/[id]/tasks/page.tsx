@@ -248,6 +248,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
 
   useEffect(() => {
     fetchTasks();
+    fetchMembers();
   }, [fetchTasks]);
 
   // --- Manual Task CRUD ---
