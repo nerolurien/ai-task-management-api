@@ -39,8 +39,9 @@ Pantau progres proyek secara langsung dengan tab **Statistik Project**:
 - **Bar Chart (Beban Kerja):** Pantau anggota mana yang memegang beban kerja terbesar.
 - **Bar Chart (Produktivitas):** Tren jumlah *task* yang selesai dalam 7 hari terakhir.
 
-### 4. 🔐 Keamanan Skala Enterprise (Enterprise Security)
-- **Rate Limiting & Anti-Brute Force:** Proteksi jalur Login & Register (maksimal 5 kali percobaan gagal per 5 menit).
+### 4. 🔐 Keamanan Skala Enterprise (Enterprise Security) & RBAC
+- **Role-Based Access Control (RBAC):** Sistem otorisasi level mahir yang membagi anggota proyek menjadi **Owner, Manager, Editor, dan Viewer**. Viewer hanya memiliki akses baca (Read-only), sementara kontrol pengaturan undangan anggota (ala Google Drive) ada sepenuhnya di tangan Owner.
+- **Rate Limiting & Anti-Brute Force:** Proteksi jalur Login, Register, dan Endpoint AI (maksimal 5 kali penggunaan AI per 10 menit).
 - **HTTP Security Headers:** Menerapkan `Strict-Transport-Security`, `X-Frame-Options`, `X-XSS-Protection`, dan `Nosniff` di sisi Next.js untuk mencegah *Clickjacking* dan injeksi XSS.
 - **URL Protection Middleware:** Mencegah akses ke halaman sensitif tanpa Token (dan mencegah pengguna login mengakses halaman registrasi lagi).
 - **Force Password Reset:** Mengundang member baru akan menghasilkan "Temporary Password" khusus. Begitu member tersebut login, sistem akan "mengunci" layar dan **memaksa** member untuk mengganti password mereka ke yang baru.
