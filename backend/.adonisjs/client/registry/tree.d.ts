@@ -12,6 +12,7 @@ export interface ApiDefinition {
     getTasks: typeof routes['projects.get_tasks']
     getActivities: typeof routes['projects.get_activities']
     getMembers: typeof routes['projects.get_members']
+    updateMemberRole: typeof routes['projects.update_member_role']
     kickMember: typeof routes['projects.kick_member']
     store: typeof routes['projects.store']
     show: typeof routes['projects.show']

@@ -11,6 +11,7 @@ export type ScannedRoutes = {
     'projects.get_tasks': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.get_activities': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.get_members': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'projects.update_member_role': { paramsTuple: [ParamValue,ParamValue]; params: {'id': ParamValue,'userId': ParamValue} }
     'projects.kick_member': { paramsTuple: [ParamValue,ParamValue]; params: {'id': ParamValue,'userId': ParamValue} }
     'projects.store': { paramsTuple?: []; params?: {} }
     'ai.handle_command': { paramsTuple?: []; params?: {} }
@@ -66,19 +67,20 @@ export type ScannedRoutes = {
     'users.index': { paramsTuple?: []; params?: {} }
     'projects.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
+  PUT: {
+    'projects.update_member_role': { paramsTuple: [ParamValue,ParamValue]; params: {'id': ParamValue,'userId': ParamValue} }
+    'tasks.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'tasks.update_subtask': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'profile.update_profile': { paramsTuple?: []; params?: {} }
+    'profile.update_password': { paramsTuple?: []; params?: {} }
+    'projects.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+  }
   DELETE: {
     'projects.kick_member': { paramsTuple: [ParamValue,ParamValue]; params: {'id': ParamValue,'userId': ParamValue} }
     'tasks.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'tasks.destroy_subtask': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'users.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'projects.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-  }
-  PUT: {
-    'tasks.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'tasks.update_subtask': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'profile.update_profile': { paramsTuple?: []; params?: {} }
-    'profile.update_password': { paramsTuple?: []; params?: {} }
-    'projects.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }
 declare module '@adonisjs/core/types/http' {

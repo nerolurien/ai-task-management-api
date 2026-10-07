@@ -48,6 +48,12 @@ const routes = {
     tokens: [{"old":"/projects/:id/members","type":0,"val":"projects","end":""},{"old":"/projects/:id/members","type":1,"val":"id","end":""},{"old":"/projects/:id/members","type":0,"val":"members","end":""}],
     types: placeholder as Registry['projects.get_members']['types'],
   },
+  'projects.update_member_role': {
+    methods: ["PUT"],
+    pattern: '/projects/:id/members/:userId/role',
+    tokens: [{"old":"/projects/:id/members/:userId/role","type":0,"val":"projects","end":""},{"old":"/projects/:id/members/:userId/role","type":1,"val":"id","end":""},{"old":"/projects/:id/members/:userId/role","type":0,"val":"members","end":""},{"old":"/projects/:id/members/:userId/role","type":1,"val":"userId","end":""},{"old":"/projects/:id/members/:userId/role","type":0,"val":"role","end":""}],
+    types: placeholder as Registry['projects.update_member_role']['types'],
+  },
   'projects.kick_member': {
     methods: ["DELETE"],
     pattern: '/projects/:id/members/:userId',

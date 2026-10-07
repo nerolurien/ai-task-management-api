@@ -91,6 +91,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['getMembers']>>>
     }
   }
+  'projects.update_member_role': {
+    methods: ["PUT"]
+    pattern: '/projects/:id/members/:userId/role'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue, ParamValue]
+      params: { id: ParamValue; userId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['updateMemberRole']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['updateMemberRole']>>>
+    }
+  }
   'projects.kick_member': {
     methods: ["DELETE"]
     pattern: '/projects/:id/members/:userId'

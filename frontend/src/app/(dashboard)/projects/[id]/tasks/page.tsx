@@ -340,6 +340,16 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
   };
 
   
+  const handleUpdateRole = async (userId: number, newRole: string) => {
+    try {
+      await apiClient.put(`/projects/${projectId}/members/${userId}/role`, { role: newRole });
+      toast.add({ title: 'Berhasil', description: 'Role member berhasil diubah' });
+      fetchMembers();
+    } catch (error) {
+      toast.add({ variant: 'destructive', title: 'Gagal', description: 'Tidak dapat mengubah role' });
+    }
+  };
+
   const handleToggleEditorsInvite = async (checked: boolean) => {
     try {
       await apiClient.put(/projects/ + projectId, { editors_can_invite: checked });
@@ -933,7 +943,20 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
                             <span>{m.name} <span className="text-muted-foreground text-xs">({m.email})</span></span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Badge variant="outline" className="text-[10px]">Member</Badge>
+                            {membersData.isOwner ? (
+                              <Select value={m.role} onValueChange={(val) => handleUpdateRole(m.id, val)}>
+                                <SelectTrigger className="h-7 w-[95px] text-[10px]">
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="viewer">Viewer</SelectItem>
+                                  <SelectItem value="editor">Editor</SelectItem>
+                                  <SelectItem value="manager">Manager</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            ) : (
+                              <Badge variant="outline" className="text-[10px] capitalize">{m.role || 'Member'}</Badge>
+                            )}
                             {membersData.isOwner && (
                               <Button 
                                 variant="ghost" 

@@ -236,6 +236,41 @@ export default class ProjectsController {
    * DELETE /projects/:id/members/:userId
    * Mengeluarkan member dari project (hanya owner)
    */
+    /**
+   * PUT /projects/:id/members/:userId/role
+   * Mengubah role member (hanya bisa dilakukan oleh Owner)
+   */
+  async updateMemberRole({ params, request, response, auth }: HttpContext) {
+    const project = await Project.find(params.id)
+    if (!project) return response.status(404).json({ message: 'Project tidak ditemukan' })
+
+    if (project.createdBy !== auth.user!.id) {
+      return response.status(403).json({ message: 'Hanya Owner yang dapat mengubah role member' })
+    }
+
+    const { role } = request.only(['role'])
+    if (!['viewer', 'editor', 'manager'].includes(role)) {
+      return response.status(400).json({ message: 'Role tidak valid' })
+    }
+
+    const Notification = (await import('#models/notification')).default
+    const invite = await Notification.query()
+      .where('project_id', params.id)
+      .where('user_id', params.userId)
+      .where('type', 'PROJECT_INVITE')
+      .where('status', 'accepted')
+      .first()
+
+    if (!invite) {
+      return response.status(404).json({ message: 'Member tidak ditemukan' })
+    }
+
+    invite.role = role
+    await invite.save()
+
+    return response.json({ message: 'Role berhasil diperbarui' })
+  }
+
   async kickMember({ params, response, auth }: HttpContext) {
     const project = await Project.find(params.id)
     if (!project) return response.status(404).json({ message: 'Project tidak ditemukan' })

@@ -20,7 +20,8 @@ router
     router.get('/projects/:id/tasks', [ProjectsController, 'getTasks'])
     router.get('/projects/:id/activities', [ProjectsController, 'getActivities'])
     router.get('/projects/:id/members', [ProjectsController, 'getMembers'])
-    router.delete('/projects/:id/members/:userId', [ProjectsController, 'kickMember'])
+    router.put('/projects/:id/members/:userId/role', [ProjectsController, 'updateMemberRole'])
+      router.delete('/projects/:id/members/:userId', [ProjectsController, 'kickMember'])
     router.post('/projects', [ProjectsController, 'store'])
     router.post('/ai/command', [AiController, 'handleCommand']).use(aiThrottle)
 
