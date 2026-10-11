@@ -11,10 +11,10 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden flex flex-col">
-      {/* Background Gradient Mesh */}
+      {}
       <div className="absolute top-0 -translate-y-12 inset-x-0 h-[500px] bg-gradient-to-b from-primary/15 via-transparent to-transparent blur-3xl -z-10" />
 
-      {/* Navbar */}
+      {}
       <header className="container mx-auto px-6 h-16 flex items-center justify-between border-b border-border/40 backdrop-blur-md">
         <div className="flex items-center gap-2">
           <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
@@ -41,7 +41,7 @@ export default async function Home() {
         </div>
       </header>
 
-      {/* Hero Section */}
+      {}
       <main className="flex-1 flex flex-col items-center justify-center text-center px-6 py-24 md:py-32">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-muted/50 border border-border text-sm text-muted-foreground mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
           <Sparkles className="h-3.5 w-3.5 text-primary" />
@@ -80,7 +80,7 @@ export default async function Home() {
 
       </main>
 
-      {/* Feature Grid */}
+      {}
       <section className="container mx-auto px-6 py-24 border-t border-border/50">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           <div className="flex flex-col gap-4">

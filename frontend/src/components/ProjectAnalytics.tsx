@@ -22,7 +22,6 @@ interface ProjectAnalyticsProps {
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d'];
 
 export function ProjectAnalytics({ tasks }: ProjectAnalyticsProps) {
-  // 1. Persentase Penyelesaian (Done vs Total)
   const completionData = useMemo(() => {
     const done = tasks.filter(t => t.status === 'done').length;
     const inProgress = tasks.filter(t => t.status === 'in_progress').length;
@@ -35,8 +34,6 @@ export function ProjectAnalytics({ tasks }: ProjectAnalyticsProps) {
   }, [tasks]);
 
   const completionPercent = tasks.length === 0 ? 0 : Math.round((tasks.filter(t => t.status === 'done').length / tasks.length) * 100);
-
-  // 2. Beban Kerja Anggota Tim (Tasks Assigned)
   const workloadData = useMemo(() => {
     const map: Record<string, number> = {};
     tasks.forEach(t => {
@@ -45,8 +42,6 @@ export function ProjectAnalytics({ tasks }: ProjectAnalyticsProps) {
     });
     return Object.entries(map).map(([name, count]) => ({ name, Tasks: count }));
   }, [tasks]);
-
-  // 3. Chart Jumlah Task Diselesaikan Minggu Ini
   const completedThisWeekData = useMemo(() => {
     const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
     const map: Record<string, number> = {
@@ -94,7 +89,7 @@ export function ProjectAnalytics({ tasks }: ProjectAnalyticsProps) {
                 outerRadius={80}
                 paddingAngle={5}
                 dataKey="value"
-                label={({name, percent}) => `${name} ${(percent * 100).toFixed(0)}%`}
+                label={({name, percent}) => `${name} ${((percent ?? 0) * 100).toFixed(0)}%`}
               >
                 {completionData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />

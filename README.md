@@ -56,6 +56,12 @@ Desain *Landing Page* dan *Dashboard* yang sepenuhnya mendukung perpindahan tema
 ### 7. 🔔 Sistem Notifikasi Real-time & Cerdas
 - **Undangan Tim & Smart Reminder:** Lonceng indikator dengan *auto-polling* yang memunculkan peringatan jika ada *task* dengan batas waktu (*deadline*) di hari yang sama atau sudah terlewat.
 
+### 8. 🛡️ Dashboard Admin & Modul Operasional Internal (/admin)
+Halaman eksklusif tingkat enterprise untuk administrator sistem yang mencakup:
+- **Pengelolaan Pengguna & Hak Akses:** Direktori seluruh pengguna terdaftar, pencarian & filter role, promosi/demosi role (`admin` / `user`), aksi *forced reset password* (password sementara), serta penghapusan akun aman.
+- **Monitoring & Operasional Sistem:** Metrik KPI real-time (Total Users, Total Projects, Total Tasks, Completion Rate), grafik distribusi status & prioritas tugas kerja, *feed* audit aktivitas pengguna terkini, dan panel monitoring status pengamanan operasional (AI Rate Limiting, Auto-Cleanup Expired Invites, Force Reset Password Interceptor).
+- **Proteksi Akses Berlapis:** Verifikasi ganda di level Next.js client dan kernel middleware AdonisJS (`middleware.admin()`).
+
 ---
 
 ## 🛠️ Cara Menjalankan (Local Setup)

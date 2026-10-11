@@ -37,12 +37,11 @@ export default function NotificationsPage() {
     fetchNotifications();
   }, []);
 
-  const handleRespond = async (id: number, status: 'accepted' | 'rejected') => {
+  const handleRespond = async (id: number | string, status: 'accepted' | 'rejected') => {
     try {
       await apiClient.post(`/notifications/${id}/respond`, { status });
       toast.add({ title: `Undangan berhasil di${status === 'accepted' ? 'terima' : 'tolak'}` });
       fetchNotifications();
-      // Optional: if accepted, redirect or show success message
     } catch (error: any) {
       toast.add({ variant: 'destructive', title: 'Gagal merespon undangan' });
     }

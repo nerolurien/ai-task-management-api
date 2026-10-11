@@ -32,7 +32,10 @@ export type ScannedRoutes = {
     'profile.update_profile': { paramsTuple?: []; params?: {} }
     'profile.update_password': { paramsTuple?: []; params?: {} }
     'users.index': { paramsTuple?: []; params?: {} }
+    'users.update_role': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'users.reset_password': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'users.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'users.get_operational_stats': { paramsTuple?: []; params?: {} }
   }
   POST: {
     'auth.register': { paramsTuple?: []; params?: {} }
@@ -55,6 +58,7 @@ export type ScannedRoutes = {
     'notifications.index': { paramsTuple?: []; params?: {} }
     'profile.get_profile': { paramsTuple?: []; params?: {} }
     'users.index': { paramsTuple?: []; params?: {} }
+    'users.get_operational_stats': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
     'projects.index': { paramsTuple?: []; params?: {} }
@@ -66,6 +70,7 @@ export type ScannedRoutes = {
     'notifications.index': { paramsTuple?: []; params?: {} }
     'profile.get_profile': { paramsTuple?: []; params?: {} }
     'users.index': { paramsTuple?: []; params?: {} }
+    'users.get_operational_stats': { paramsTuple?: []; params?: {} }
   }
   PUT: {
     'projects.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -74,6 +79,8 @@ export type ScannedRoutes = {
     'tasks.update_subtask': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'profile.update_profile': { paramsTuple?: []; params?: {} }
     'profile.update_password': { paramsTuple?: []; params?: {} }
+    'users.update_role': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'users.reset_password': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   DELETE: {
     'projects.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

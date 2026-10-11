@@ -24,7 +24,6 @@ export default function LoginPage() {
 
     try {
       const res = await apiClient.post('/login', { email, password });
-      // Asumsi backend merespon dengan { token: '...', user: { role: '...' } }
       const token = res.data.token || res.data.data?.token?.token; // Sesuaikan Adonis response
       const role = res.data.user?.role || res.data.data?.user?.role || 'user';
       const isTemporary = res.data.user?.isPasswordTemporary || res.data.data?.user?.isPasswordTemporary || false;
@@ -55,7 +54,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      {/* Navbar */}
+      {}
       <header className="border-b bg-background px-6 h-14 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
           <div className="h-7 w-7 rounded-lg bg-primary flex items-center justify-center">
@@ -66,7 +65,7 @@ export default function LoginPage() {
         <ThemeToggle />
       </header>
 
-      {/* Form */}
+      {}
       <div className="flex flex-1 items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <form onSubmit={handleLogin}>

@@ -83,7 +83,6 @@ export async function parseNaturalLanguageTaskCommand(prompt: string) {
       const is503 = err.message?.includes('503') || err.message?.includes('UNAVAILABLE') || err.message?.includes('high demand')
       const isNotFound = err.message?.includes('404') || err.message?.includes('NOT_FOUND')
       if (is503 || isNotFound) {
-        // Coba model berikutnya
         continue
       }
       throw err

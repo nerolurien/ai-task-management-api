@@ -3,10 +3,7 @@ import Task from '#models/task'
 import Subtask from '#models/subtask'
 
 export default class TasksController {
-  /**
-   * POST /tasks
-   * Membuat task baru secara manual
-   */
+  
   async store({ request, response, auth }: HttpContext) {
     const user = auth.user!
     const { project_id, title, description, status, priority, due_date } = request.only([
@@ -40,10 +37,7 @@ export default class TasksController {
     })
   }
 
-  /**
-   * PUT /tasks/:id
-   * Memperbarui task
-   */
+  
   async update({ params, request, response, auth }: HttpContext) {
     const task = await Task.find(params.id)
 
@@ -80,10 +74,7 @@ export default class TasksController {
     })
   }
 
-  /**
-   * DELETE /tasks/:id
-   * Menghapus task
-   */
+  
   async destroy({ params, response, auth }: HttpContext) {
     const task = await Task.find(params.id)
 
@@ -108,9 +99,7 @@ export default class TasksController {
     })
   }
 
-  /**
-   * POST /tasks/:taskId/subtasks
-   */
+  
   async storeSubtask({ request, params, response }: HttpContext) {
     const task = await Task.find(params.taskId)
     if (!task) {
@@ -134,9 +123,7 @@ export default class TasksController {
     })
   }
 
-  /**
-   * PUT /subtasks/:id
-   */
+  
   async updateSubtask({ request, params, response }: HttpContext) {
     const subtask = await Subtask.find(params.id)
     if (!subtask) {
@@ -155,9 +142,7 @@ export default class TasksController {
     })
   }
 
-  /**
-   * DELETE /subtasks/:id
-   */
+  
   async destroySubtask({ params, response }: HttpContext) {
     const subtask = await Subtask.find(params.id)
     if (!subtask) {

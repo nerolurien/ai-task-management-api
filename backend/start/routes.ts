@@ -6,16 +6,12 @@ const AuthController = () => import('#controllers/auth_controller')
 const ProjectsController = () => import('#controllers/projects_controller')
 const TasksController = () => import('#controllers/tasks_controller')
 const AiController = () => import('#controllers/ai_controller')
-
-// Autentikasi
 router.post('/register', [AuthController, 'register']).use(authThrottle)
 router.post('/login', [AuthController, 'login']).use(authThrottle)
 
 router
   .group(() => {
     router.post('/invite', [AuthController, 'invite'])
-    
-    // Fitur Role User & Admin
     router.get('/projects', [ProjectsController, 'index'])
     router.post('/projects', [ProjectsController, 'store'])
     router.get('/projects/:id', [ProjectsController, 'show'])
@@ -27,8 +23,6 @@ router
     router.put('/projects/:id/members/:userId/role', [ProjectsController, 'updateMemberRole'])
     router.delete('/projects/:id/members/:userId', [ProjectsController, 'kickMember'])
     router.post('/ai/command', [AiController, 'handleCommand']).use(aiThrottle)
-
-    // Manual Task CRUD & Comments
     router.post('/tasks', [TasksController, 'store'])
     router.put('/tasks/:id', [TasksController, 'update'])
     router.delete('/tasks/:id', [TasksController, 'destroy'])
@@ -39,24 +33,21 @@ router
     const CommentsController = () => import('#controllers/comments_controller')
     router.get('/tasks/:taskId/comments', [CommentsController, 'index'])
     router.post('/tasks/:taskId/comments', [CommentsController, 'store'])
-
-    // Notifications
     const NotificationsController = () => import('#controllers/notifications_controller')
     router.get('/notifications', [NotificationsController, 'index'])
     router.post('/notifications/:id/respond', [NotificationsController, 'respond'])
-
-    // Profile
     const ProfileController = () => import('#controllers/profile_controller')
     router.get('/profile', [ProfileController, 'getProfile'])
     router.put('/profile', [ProfileController, 'updateProfile'])
     router.put('/profile/password', [ProfileController, 'updatePassword'])
-
-    // Fitur Khusus Role Admin
     const UsersController = () => import('#controllers/users_controller')
     router
       .group(() => {
         router.get('/users', [UsersController, 'index'])
+        router.put('/users/:id/role', [UsersController, 'updateRole'])
+        router.put('/users/:id/reset-password', [UsersController, 'resetPassword'])
         router.delete('/users/:id', [UsersController, 'destroy'])
+        router.get('/admin/stats', [UsersController, 'getOperationalStats'])
       })
       .use(middleware.admin())
   })

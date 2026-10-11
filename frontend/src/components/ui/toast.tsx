@@ -6,6 +6,7 @@ import { cn } from "cn"
 
 import { Button } from "@/components/ui/button"
 import { XIcon, CircleCheckIcon, InfoIcon, TriangleAlertIcon, OctagonXIcon, Loader2Icon } from "lucide-react"
+import type { ToastManagerAddOptions } from "@base-ui/react/toast"
 
 export interface AppToast {
   title?: React.ReactNode
@@ -13,7 +14,18 @@ export interface AppToast {
   variant?: "default" | "destructive"
 }
 
-const toast = ToastPrimitive.createToastManager<AppToast>()
+const baseToast = ToastPrimitive.createToastManager<AppToast>()
+
+const toast = {
+  ...baseToast,
+  add: (options: ToastManagerAddOptions<AppToast> & { variant?: "default" | "destructive" }) => {
+    const type = options.variant === "destructive" ? "error" : options.type || "info"
+    return baseToast.add({
+      ...options,
+      type,
+    })
+  },
+}
 
 function ToastProvider({ ...props }: ToastPrimitive.Provider.Props) {
   return <ToastPrimitive.Provider {...props} />

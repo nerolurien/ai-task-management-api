@@ -73,8 +73,6 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
   
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
-
-  // Modal state
   const [showModal, setShowModal] = useState(false);
   const [editTask, setEditTask] = useState<Task | null>(null);
   const [formTitle, setFormTitle] = useState('');
@@ -83,8 +81,6 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
   const [formPriority, setFormPriority] = useState<'low' | 'medium' | 'high'>('medium');
   const [formDueDate, setFormDueDate] = useState<string>('');
   const [submitting, setSubmitting] = useState(false);
-
-  // Detail modal state
   const [detailTask, setDetailTask] = useState<Task | null>(null);
   const [comments, setComments] = useState<any[]>([]);
   const [newComment, setNewComment] = useState('');
@@ -145,7 +141,6 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
     if (!detailTask) return;
     try {
       const newStatus = !currentCompleted;
-      // Optimistic
       const updatedSubtasks = (detailTask.subtasks || []).map(s => 
         s.id === subtaskId ? { ...s, is_completed: newStatus ? 1 : 0, isCompleted: newStatus } : s
       );
@@ -172,8 +167,6 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
       fetchTasks();
     }
   };
-
-  // Invite modal state
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [inviteEmail, setInviteEmail] = useState('');
   const [inviteRole, setInviteRole] = useState<'viewer' | 'editor' | 'manager'>('editor');
@@ -200,8 +193,6 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
     setShowInviteModal(true);
     fetchMembers();
   };
-
-  // Activity Log state
   const [showActivityModal, setShowActivityModal] = useState(false);
   const [activities, setActivities] = useState<any[]>([]);
   const [loadingActivities, setLoadingActivities] = useState(false);
@@ -220,8 +211,6 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
       setLoadingActivities(false);
     }
   };
-
-  // Subtasks State
   const [newSubtask, setNewSubtask] = useState('');
   const [submittingSubtask, setSubmittingSubtask] = useState(false);
 
@@ -251,8 +240,6 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
     fetchTasks();
     fetchMembers();
   }, [fetchTasks]);
-
-  // --- Manual Task CRUD ---
   const openCreateModal = () => {
     setEditTask(null);
     setFormTitle('');
@@ -448,8 +435,6 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
     
     const taskId = parseInt(draggableId);
     const newStatus = destination.droppableId as Status;
-    
-    // Optimistic update
     setTasks(prev => prev.map(t => t.id === taskId ? { ...t, status: newStatus } : t));
     
     try {
@@ -459,8 +444,6 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
       fetchTasks(); // Revert
     }
   };
-
-  // --- Helpers ---
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case 'high': return 'bg-red-500 hover:bg-red-600 text-white';
@@ -477,12 +460,8 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
     if (dueDateStr && task.status !== 'done') {
       const due = new Date(dueDateStr);
       const today = new Date();
-      
-      // Calculate diff in days
       const diffTime = due.getTime() - today.getTime();
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      
-      // If 2 days or less away (including overdue), force HIGH priority
       if (diffDays <= 2) {
         return 'high';
       }
@@ -503,7 +482,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
 
   return (
     <div className="flex flex-col gap-6 p-6 min-h-screen bg-muted/20">
-      {/* Header */}
+      {}
       <div className="flex flex-col gap-4">
         <Link href="/projects">
           <Button variant="ghost" size="sm" className="gap-2 -ml-2 text-muted-foreground hover:text-foreground">
@@ -538,11 +517,11 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
           </div>
         </div>
 
-        {/* AI Command Bar */}
+        {}
         {!isViewer && (<><div className="flex items-center gap-3 w-full bg-background border rounded-2xl px-1 py-1 shadow-sm"><AiCommandBar projectId={projectId} onSuccess={fetchTasks} /></div><p className="text-xs text-muted-foreground flex items-center gap-1.5"><Sparkles className="h-3 w-3 text-primary" />Contoh: &quot;Buatkan task Fix Bug Login dengan priority high&quot;</p></>)}
       </div>
 
-      {/* Main Content Tabs */}
+      {}
       <Tabs defaultValue="board" className="w-full">
         <div className="flex justify-between items-center mb-6">
           <TabsList>
@@ -561,7 +540,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
               const columnTasks = tasks.filter(t => t.status === column.id);
               return (
                 <div key={column.id} className={`flex flex-col gap-4 p-4 rounded-xl border ${column.border} bg-background min-w-[85vw] snap-center shrink-0 md:min-w-0 md:shrink md:snap-align-none`}>
-                  {/* Column Header */}
+                  {}
                   <div className={`flex items-center justify-between font-semibold rounded-lg px-3 py-2 ${column.headerBg}`}>
                     <h2 className={`text-base flex items-center gap-2 ${column.headerText}`}>
                       {column.icon}
@@ -631,7 +610,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
                                           <User className="h-3 w-3 mr-1" /> {task.assignee.name}
                                         </p>
                                       ) : <div />}
-                                      {/* Move buttons - Optional now since we have DND, but keep for accessibility */}
+                                      {}
                                       {!isViewer && (<div className="flex gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity" onClick={e => e.stopPropagation()}>
                                         {task.status !== 'todo' && (
                                           <Button variant="outline" size="icon" className="h-6 w-6" onClick={() => handleMoveTask(task, 'prev')}>
@@ -673,7 +652,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
       </TabsContent>
     </Tabs>
 
-      {/* Detail Task Modal */}
+      {}
       <Dialog open={!!detailTask} onOpenChange={(open) => !open && setDetailTask(null)}>
         <DialogContent>
           <DialogHeader>
@@ -726,7 +705,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
                 </Button>
               </div>)}
 
-              {/* Subtasks Section */}
+              {}
               <div className="mt-4 pt-4 border-t flex flex-col gap-3">
                 <h3 className="text-sm font-semibold">Sub-task (Checklist)</h3>
                 <div className="flex flex-col gap-2">
@@ -766,7 +745,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
                 </div>
               </div>
 
-              {/* Comments Section */}
+              {}
               <div className="mt-4 pt-4 border-t flex flex-col gap-3">
                 <h3 className="text-sm font-semibold">Komentar</h3>
                 
@@ -808,7 +787,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
         </DialogContent>
       </Dialog>
 
-      {/* Create/Edit Task Modal */}
+      {}
       <Dialog open={showModal} onOpenChange={setShowModal}>
         <DialogContent>
           <DialogHeader>
@@ -878,7 +857,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
           </div>
         </DialogContent>
       </Dialog>
-      {/* Invite Member Modal */}
+      {}
       <Dialog open={showInviteModal} onOpenChange={setShowInviteModal}>
         <DialogContent className="sm:max-w-[450px]">
           <DialogHeader>
@@ -1014,7 +993,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
           </div>
         </DialogContent>
       </Dialog>
-      {/* Activity Log Modal */}
+      {}
       <Dialog open={showActivityModal} onOpenChange={setShowActivityModal}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
@@ -1055,8 +1034,6 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
                 const filtered = activities.filter(a => {
                   const matchSearch = (a.action || '').toLowerCase().includes(activitySearch.toLowerCase()) ||
                                       (a.user?.name || '').toLowerCase().includes(activitySearch.toLowerCase());
-                  
-                  // a.createdAt is an ISO string like "2026-10-06T12:00:00.000Z"
                   const matchDate = activityDate ? a.createdAt.startsWith(activityDate) : true;
                   
                   return matchSearch && matchDate;
@@ -1090,7 +1067,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
         </DialogContent>
       </Dialog>
 
-      {/* Kick Confirm Modal */}
+      {}
       <Dialog open={!!kickConfirmData} onOpenChange={(open) => !open && setKickConfirmData(null)}>
         <DialogContent className="sm:max-w-[400px]">
           <DialogHeader>
@@ -1108,7 +1085,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
         </DialogContent>
       </Dialog>
 
-      {/* Unregistered Email Confirm Modal */}
+      {}
       <Dialog open={!!unregisteredEmail} onOpenChange={(open) => !open && setUnregisteredEmail(null)}>
         <DialogContent className="sm:max-w-[400px]">
           <DialogHeader>
@@ -1128,7 +1105,7 @@ export default function TaskBoardPage({ params }: { params: Promise<{ id: string
         </DialogContent>
       </Dialog>
 
-      {/* Generated Password Modal */}
+      {}
       <Dialog open={!!generatedPassword} onOpenChange={(open) => !open && setGeneratedPassword(null)}>
         <DialogContent className="sm:max-w-[400px]">
           <DialogHeader>

@@ -19,6 +19,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const router = useRouter();
   const [unreadCount, setUnreadCount] = useState(0);
   const [isPasswordTemporary, setIsPasswordTemporary] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [changingPassword, setChangingPassword] = useState(false);
@@ -26,7 +27,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const pathname = usePathname();
 
   useEffect(() => {
-    // Check if user has temporary password
+    const roleCookie = Cookies.get('role');
+    setIsAdmin(roleCookie === 'admin');
     const tempCookie = Cookies.get('isPasswordTemporary');
     if (tempCookie === 'true') {
       setIsPasswordTemporary(true);
@@ -37,11 +39,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         setUnreadCount(res.data.data.length);
       }).catch(() => {});
     };
-
-    // Fetch immediately on mount or path change
     fetchNotifs();
-
-    // Polling setiap 30 detik agar realtime
     const interval = setInterval(fetchNotifs, 30000);
 
     return () => clearInterval(interval);
@@ -110,6 +108,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     <User className="h-4 w-4" />
                     Profil Saya
                   </Link>
+                  {isAdmin && (
+                    <Link href="/admin" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-amber-500 hover:text-amber-400 hover:bg-amber-500/10 transition-all border border-amber-500/20">
+                      <Sparkles className="h-4 w-4" />
+                      Dashboard Admin
+                    </Link>
+                  )}
                 </nav>
                 <div className="mt-auto pb-4">
                   <Button variant="outline" className="w-full justify-start gap-3 border-destructive/20 text-destructive hover:bg-destructive/10" onClick={handleLogout}>
@@ -131,6 +135,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <Link href="/projects" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden md:inline">
             Dashboard
           </Link>
+          {isAdmin && (
+            <>
+              <span className="text-border hidden md:inline">|</span>
+              <Link href="/admin" className="text-xs px-2 py-0.5 rounded-full font-medium bg-amber-500/10 text-amber-500 hover:bg-amber-500/20 border border-amber-500/20 transition-colors hidden md:inline-flex items-center gap-1">
+                <Sparkles className="h-3 w-3" />
+                Admin Panel
+              </Link>
+            </>
+          )}
         </div>
         
         <div className="flex items-center gap-3 md:gap-4">
@@ -159,7 +172,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {children}
       </main>
 
-      {/* Force Change Password Modal */}
+      {}
       {isPasswordTemporary && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
           <div className="bg-background rounded-xl p-6 max-w-sm w-full shadow-lg border">

@@ -4,8 +4,6 @@ import Notification from '#models/notification'
 export async function checkProjectPermission(userId: number, projectId: number, allowedRoles: ('viewer' | 'editor' | 'manager')[]) {
   const project = await Project.find(projectId)
   if (!project) return false
-  
-  // Creator / Owner is effectively a super-admin of their own project
   if (project.createdBy === userId) return true
 
   const notif = await Notification.query()

@@ -47,7 +47,7 @@ export default function RegisterPage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      {/* Navbar */}
+      {}
       <header className="border-b bg-background px-6 h-14 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
           <div className="h-7 w-7 rounded-lg bg-primary flex items-center justify-center">
@@ -58,7 +58,7 @@ export default function RegisterPage() {
         <ThemeToggle />
       </header>
 
-      {/* Form */}
+      {}
       <div className="flex flex-1 items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <form onSubmit={handleRegister}>

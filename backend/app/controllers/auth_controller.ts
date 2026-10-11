@@ -2,10 +2,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import User from '#models/user'
 
 export default class AuthController {
-  /**
-   * POST /register
-   * Mendaftar sebagai admin / user
-   */
+  
   async register({ request, response }: HttpContext) {
     const payload = request.only(['name', 'email', 'password', 'role'])
 
@@ -27,8 +24,6 @@ export default class AuthController {
         message: 'Email sudah terdaftar',
       })
     }
-
-    // Role hanya boleh 'admin' atau 'user', default: 'user'
     const role = payload.role === 'admin' ? 'admin' : 'user'
 
     const user = await User.create({
@@ -49,10 +44,7 @@ export default class AuthController {
     })
   }
 
-  /**
-   * POST /login
-   * Login untuk mendapatkan token JWT / Access Token
-   */
+  
   async login({ request, response }: HttpContext) {
     const { email, password } = request.only(['email', 'password'])
 
@@ -84,10 +76,7 @@ export default class AuthController {
     })
   }
 
-  /**
-   * POST /invite
-   * Mengundang user (membuat akun via email) & mengirim notifikasi project
-   */
+  
   async invite({ request, response, auth }: HttpContext) {
     const sender = auth.user!
     const { email, project_id, forceCreate, role } = request.only(['email', 'project_id', 'forceCreate', 'role'])
@@ -118,16 +107,12 @@ export default class AuthController {
         isPasswordTemporary: true
       })
     }
-
-    // Cek apakah user adalah owner project
     const Project = (await import('#models/project')).default
     const project = await Project.find(project_id)
     if (!project) return response.status(404).json({ message: 'Project tidak ditemukan' })
     if (project.createdBy === user.id) {
       return response.status(400).json({ message: 'User adalah pemilik project ini (sudah menjadi anggota)' })
     }
-
-    // Cek izin pengirim (sender)
     const isOwner = project.createdBy === sender.id
     let senderRole = null
 
@@ -158,8 +143,6 @@ export default class AuthController {
         }
       }
     }
-
-    // Cek apakah sudah diundang sebelumnya
     const existingInvite = await (await import('#models/notification')).default.query()
       .where('user_id', user.id)
       .where('project_id', project_id)

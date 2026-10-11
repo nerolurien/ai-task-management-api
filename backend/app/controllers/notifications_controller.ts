@@ -3,33 +3,22 @@ import Notification from '#models/notification'
 import { DateTime } from 'luxon'
 
 export default class NotificationsController {
-  /**
-   * GET /notifications
-   * Mendapatkan semua notifikasi user (terutama invite)
-   */
+  
   async index({ response, auth }: HttpContext) {
     const user = auth.user!
-
-    // Cleanup expired invites (older than 1 hour)
     const oneHourAgo = DateTime.now().minus({ hours: 1 }).toJSDate()
     await Notification.query()
       .where('type', 'PROJECT_INVITE')
       .where('status', 'pending')
       .where('created_at', '<', oneHourAgo)
       .delete()
-
-    // 1. Get real invite notifications
     const inviteNotifications = await Notification.query()
       .where('user_id', user.id)
       .where('status', 'pending')
       .preload('project', (query) => query.select('id', 'name'))
       .preload('sender', (query) => query.select('id', 'name', 'email'))
       .orderBy('created_at', 'desc')
-
-    // 2. Generate dynamic deadline notifications
     const Task = (await import('#models/task')).default
-    
-    // Find tasks assigned to this user that are not done
     const pendingTasks = await Task.query()
       .where('assigneeId', user.id)
       .whereNot('status', 'done')
@@ -72,10 +61,7 @@ export default class NotificationsController {
     })
   }
 
-  /**
-   * POST /notifications/:id/respond
-   * Merespon undangan (terima/tolak)
-   */
+  
   async respond({ params, request, response, auth }: HttpContext) {
     const user = auth.user!
     const { status } = request.only(['status']) // 'accepted' atau 'rejected'
@@ -92,8 +78,6 @@ export default class NotificationsController {
     if (!notification) {
       return response.status(404).json({ message: 'Notifikasi tidak ditemukan' })
     }
-
-    // Check expiration if it's a project invite
     if (notification.type === 'PROJECT_INVITE') {
       const oneHourAgo = DateTime.now().minus({ hours: 1 })
       if (notification.createdAt < oneHourAgo) {

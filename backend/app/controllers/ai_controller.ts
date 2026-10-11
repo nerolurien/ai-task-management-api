@@ -15,8 +15,6 @@ export default class AiController {
     }
 
     let parsedResult: any = null
-
-    // Memanggil AI
     try {
       parsedResult = await parseNaturalLanguageTaskCommand(prompt)
     } catch (err: any) {
@@ -30,8 +28,6 @@ export default class AiController {
       })
       return response.status(400).json({ message: `Gagal memproses instruksi dengan AI: ${err.message}` })
     }
-
-    //  Guardrail Penolakan
     if (parsedResult.rejected || !parsedResult.actions || parsedResult.actions.length === 0) {
       const reason = parsedResult.rejectionReason || 'Instruksi ditolak. AI hanya diizinkan mengelola tabel Task dan dilarang memodifikasi data User.'
 
@@ -49,8 +45,6 @@ export default class AiController {
         reason: reason
       })
     }
-
-    // Eksekusi Database Transaction
     const trx = await db.transaction()
     try {
       const executedResults: any[] = []
@@ -145,8 +139,6 @@ export default class AiController {
       }
 
       await trx.commit()
-
-      // Catat Audit Log Success (di luar transaksi task)
       await AuditLog.create({
         userId: user.id,
         action: 'AI_COMMAND',
@@ -161,8 +153,6 @@ export default class AiController {
       })
     } catch (error: any) {
       await trx.rollback()
-
-      // Catat Audit Log Failed
       await AuditLog.create({
         userId: user.id,
         action: 'AI_COMMAND',

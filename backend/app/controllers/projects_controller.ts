@@ -3,10 +3,7 @@ import Project from '#models/project'
 import Task from '#models/task'
 
 export default class ProjectsController {
-  /**
-   * GET /projects
-   * User & Admin bisa melihat daftar semua proyek
-   */
+  
   async index({ response, auth }: HttpContext) {
     const user = auth.user!
 
@@ -34,10 +31,7 @@ export default class ProjectsController {
     })
   }
 
-  /**
-   * GET /projects/:id
-   * Admin melihat detail 1 proyek
-   */
+  
   async show({ params, response }: HttpContext) {
     const project = await Project.find(params.id)
 
@@ -57,10 +51,7 @@ export default class ProjectsController {
     })
   }
 
-  /**
-   * POST /projects
-   * Admin membuat proyek baru
-   */
+  
   async store({ request, response, auth }: HttpContext) {
     const user = auth.user!
     const { name, description } = request.only(['name', 'description'])
@@ -83,10 +74,7 @@ export default class ProjectsController {
     })
   }
 
-  /**
-   * PUT /projects/:id
-   * Admin memperbarui proyek
-   */
+  
   async update({ params, request, response }: HttpContext) {
     const project = await Project.find(params.id)
 
@@ -110,10 +98,7 @@ export default class ProjectsController {
     })
   }
 
-  /**
-   * DELETE /projects/:id
-   * Admin menghapus proyek
-   */
+  
   async destroy({ params, response }: HttpContext) {
     const project = await Project.find(params.id)
 
@@ -130,10 +115,7 @@ export default class ProjectsController {
     })
   }
 
-  /**
-   * GET /projects/:id/tasks
-   * User & Admin melihat semua tugas di dalam proyek tertentu
-   */
+  
   async getTasks({ params, response, auth }: HttpContext) {
     const user = auth.user!
     const project = await Project.find(params.id)
@@ -177,10 +159,7 @@ export default class ProjectsController {
     })
   }
 
-  /**
-   * GET /projects/:id/activities
-   * Melihat riwayat aktivitas project
-   */
+  
   async getActivities({ params, response }: HttpContext) {
     const Activity = (await import('#models/activity')).default
     const activities = await Activity.query()
@@ -195,10 +174,7 @@ export default class ProjectsController {
     })
   }
 
-  /**
-   * GET /projects/:id/members
-   * Mendapatkan daftar member dan undangan pending
-   */
+  
   async getMembers({ params, response, auth }: HttpContext) {
     const project = await Project.find(params.id)
     if (!project) return response.status(404).json({ message: 'Project tidak ditemukan' })
@@ -215,8 +191,6 @@ export default class ProjectsController {
       .filter(inv => inv.status === 'accepted')
       .map(inv => ({ ...inv.user.serialize(), role: inv.role }))
       .filter(u => u.id !== project.creator.id)
-
-    // Hapus duplikat jika ada
     const members = Array.from(new Map(rawMembers.map(item => [item.id, item])).values())
       
     const pending = invites.filter(inv => inv.status === 'pending')
@@ -234,14 +208,8 @@ export default class ProjectsController {
     })
   }
 
-  /**
-   * DELETE /projects/:id/members/:userId
-   * Mengeluarkan member dari project (hanya owner)
-   */
-    /**
-   * PUT /projects/:id/members/:userId/role
-   * Mengubah role member (hanya bisa dilakukan oleh Owner)
-   */
+  
+    
   async updateMemberRole({ params, request, response, auth }: HttpContext) {
     const project = await Project.find(params.id)
     if (!project) return response.status(404).json({ message: 'Project tidak ditemukan' })
@@ -276,8 +244,6 @@ export default class ProjectsController {
   async kickMember({ params, response, auth }: HttpContext) {
     const project = await Project.find(params.id)
     if (!project) return response.status(404).json({ message: 'Project tidak ditemukan' })
-
-    // Hanya owner yang bisa kick
     if (project.createdBy !== auth.user!.id) {
       return response.status(403).json({ message: 'Akses ditolak. Hanya pemilik project yang bisa mengeluarkan anggota.' })
     }
@@ -297,8 +263,6 @@ export default class ProjectsController {
     if (deletedCount[0] === 0) {
       return response.status(404).json({ message: 'Member tidak ditemukan di project ini' })
     }
-
-    // Catat ke Activity Log
     const targetUser = await (await import('#models/user')).default.find(targetUserId)
     const targetName = targetUser ? targetUser.name : 'Seorang member'
     

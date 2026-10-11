@@ -3,10 +3,7 @@ import hash from '@adonisjs/core/services/hash'
 import User from '#models/user'
 
 export default class ProfileController {
-  /**
-   * GET /profile
-   * Mendapatkan data profil user saat ini
-   */
+  
   async getProfile({ response, auth }: HttpContext) {
     const user = auth.user!
     return response.json({
@@ -20,10 +17,7 @@ export default class ProfileController {
     })
   }
 
-  /**
-   * PUT /profile
-   * Mengubah profil user (hanya nama, email dikunci)
-   */
+  
   async updateProfile({ request, response, auth }: HttpContext) {
     const user = auth.user!
     const { name } = request.only(['name'])
@@ -41,9 +35,7 @@ export default class ProfileController {
     })
   }
 
-  /**
-   * PUT /profile/password
-   */
+  
   async updatePassword({ request, response, auth }: HttpContext) {
     const user = auth.user!
     const { old_password, new_password } = request.only(['old_password', 'new_password'])
@@ -60,15 +52,11 @@ export default class ProfileController {
       if (!old_password) {
         return response.status(400).json({ message: 'Password lama wajib diisi' })
       }
-      
-      // Verifikasi password lama
       const isMatched = await hash.verify(user.password, old_password)
       if (!isMatched) {
         return response.status(400).json({ message: 'Password lama salah' })
       }
     }
-
-    // Update ke password baru
     user.password = new_password
     user.isPasswordTemporary = false
     await user.save()

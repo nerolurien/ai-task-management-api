@@ -174,11 +174,29 @@ const routes = {
     tokens: [{"old":"/users","type":0,"val":"users","end":""}],
     types: placeholder as Registry['users.index']['types'],
   },
+  'users.update_role': {
+    methods: ["PUT"],
+    pattern: '/users/:id/role',
+    tokens: [{"old":"/users/:id/role","type":0,"val":"users","end":""},{"old":"/users/:id/role","type":1,"val":"id","end":""},{"old":"/users/:id/role","type":0,"val":"role","end":""}],
+    types: placeholder as Registry['users.update_role']['types'],
+  },
+  'users.reset_password': {
+    methods: ["PUT"],
+    pattern: '/users/:id/reset-password',
+    tokens: [{"old":"/users/:id/reset-password","type":0,"val":"users","end":""},{"old":"/users/:id/reset-password","type":1,"val":"id","end":""},{"old":"/users/:id/reset-password","type":0,"val":"reset-password","end":""}],
+    types: placeholder as Registry['users.reset_password']['types'],
+  },
   'users.destroy': {
     methods: ["DELETE"],
     pattern: '/users/:id',
     tokens: [{"old":"/users/:id","type":0,"val":"users","end":""},{"old":"/users/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['users.destroy']['types'],
+  },
+  'users.get_operational_stats': {
+    methods: ["GET","HEAD"],
+    pattern: '/admin/stats',
+    tokens: [{"old":"/admin/stats","type":0,"val":"admin","end":""},{"old":"/admin/stats","type":0,"val":"stats","end":""}],
+    types: placeholder as Registry['users.get_operational_stats']['types'],
   },
 } as const satisfies Record<string, AdonisEndpoint>
 

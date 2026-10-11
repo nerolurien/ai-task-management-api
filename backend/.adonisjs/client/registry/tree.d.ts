@@ -45,6 +45,9 @@ export interface ApiDefinition {
   }
   users: {
     index: typeof routes['users.index']
+    updateRole: typeof routes['users.update_role']
+    resetPassword: typeof routes['users.reset_password']
     destroy: typeof routes['users.destroy']
+    getOperationalStats: typeof routes['users.get_operational_stats']
   }
 }

@@ -3,10 +3,7 @@ import Comment from '#models/comment'
 import Task from '#models/task'
 
 export default class CommentsController {
-  /**
-   * GET /tasks/:taskId/comments
-   * Mendapatkan komentar untuk task tertentu
-   */
+  
   async index({ params, response }: HttpContext) {
     const comments = await Comment.query()
       .where('task_id', params.taskId)
@@ -19,10 +16,7 @@ export default class CommentsController {
     })
   }
 
-  /**
-   * POST /tasks/:taskId/comments
-   * Menambahkan komentar baru ke task
-   */
+  
   async store({ params, request, response, auth }: HttpContext) {
     const user = auth.user!
     const { content } = request.only(['content'])
